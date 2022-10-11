@@ -1,5 +1,11 @@
-﻿@{
+﻿@using Riode.ViewModels
+@{
     ViewData["Title"] = "Index";
+}
+@model HomeVM
+
+@{
+    int featuresItemCount = 1;
 }
 <main class="main">
     <div class="page-content">
@@ -130,45 +136,21 @@
                                         }
                                     }
                                 }">
-                        <div class="icon-box icon-box-side icon-box1 appear-animate" data-animation-options="{
+                        @foreach (var item in Model.Features)
+                        {
+                            <div class="icon-box icon-box-side icon-box1 appear-animate" data-animation-options="{
                                         'name': 'fadeInRightShorter',
                                         'delay': '.3s'
                                     }">
-                            <i class="icon-box-icon d-icon-truck"></i>
-                            <div class="icon-box-content">
-                                <h4 class="icon-box-title text-capitalize ls-normal lh-1">
-                                    Free Shipping &amp;
-                                    Return
-                                </h4>
-                                <p class="ls-s lh-1">Free shipping on orders over $99</p>
+                                @Html.Raw(item.Icon)
+                                <div class="icon-box-content">
+                                    <h4 class="icon-box-title text-capitalize ls-normal lh-1">
+                                        @item.Title
+                                    </h4>
+                                    <p class="ls-s lh-1">@item.Description</p>
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="icon-box icon-box-side icon-box2 appear-animate" data-animation-options="{
-                                        'name': 'fadeInRightShorter',
-                                        'delay': '.4s'
-                                    }">
-                            <i class="icon-box-icon d-icon-service"></i>
-                            <div class="icon-box-content">
-                                <h4 class="icon-box-title text-capitalize ls-normal lh-1">
-                                    Customer Support 24/7
-                                </h4>
-                                <p class="ls-s lh-1">Instant access to perfect support</p>
-                            </div>
-                        </div>
-
-                        <div class="icon-box icon-box-side icon-box3 appear-animate" data-animation-options="{
-                                        'name': 'fadeInRightShorter',
-                                        'delay': '.5s'
-                                    }">
-                            <i class="icon-box-icon d-icon-secure"></i>
-                            <div class="icon-box-content">
-                                <h4 class="icon-box-title text-capitalize ls-normal lh-1">
-                                    100% Secure Payment
-                                </h4>
-                                <p class="ls-s lh-1">We ensure secure payment!</p>
-                            </div>
-                        </div>
+                        }
                     </div>
                 </div>
             </div>
