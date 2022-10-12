@@ -329,7 +329,7 @@ namespace Riode.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Place")
+                    b.Property<bool?>("Place")
                         .HasColumnType("bit");
 
                     b.Property<string>("SubTitle")
