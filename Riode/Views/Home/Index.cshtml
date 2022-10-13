@@ -6,6 +6,7 @@
 
 @{
     int featuresItemCount = 1;
+    var bannerDiscount = Model.Products.Where(x => x.CategoryId == 1).Min(x => x.InitialPrice);
 }
 <main class="main">
     <div class="page-content">
@@ -36,7 +37,7 @@
                                 </h4>
                                 <h2 class="banner-title font-weight-bold text-white lh-1 ls-md slide-animate"
                                 data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s', 'delay': '1s'}">
-                                        @Html.Raw(item.SubTitle)
+                                    @Html.Raw(item.SubTitle)
                                 </h2>
                                 <p class="slide-animate text-white ls-s mb-7"
                                data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s', 'delay': '1s'}">
@@ -101,72 +102,24 @@
             <div class="container">
                 <h2 class="title title-center mb-5">Our Categories</h2>
                 <div class="row">
-                    <div class="col-xs-6 col-lg-3 mb-4">
-                        <div class="category category-default1 category-absolute banner-radius overlay-zoom">
-                            <a href="shop.html">
-                                <figure class="category-media">
-                                    <img src="~/images/categories/category1.jpg" alt="category" width="280"
+                    @foreach (var item in Model.Categories.OrderByDescending(x => x.Products.Count()))
+                    {
+                        <div class="col-xs-6 col-lg-3 mb-4">
+                            <div class="category category-default1 category-absolute banner-radius overlay-zoom">
+                                <a href="shop.html">
+                                    <figure class="category-media">
+                                        <img src="~/images/categories/@item.ImageUrl" alt="category" width="280"
                                          height="280" style="background-color: #8c8c8d;" />
-                                </figure>
-                            </a>
-                            <div class="category-content">
-                                <h4 class="category-name font-weight-bold ls-l">
-                                    <a href="shop.html">
-                                        For
-                                        Men's
-                                    </a>
-                                </h4>
+                                    </figure>
+                                </a>
+                                <div class="category-content">
+                                    <h4 class="category-name font-weight-bold ls-l">
+                                        <a href="shop.html">@item.Name (@item.Products.Count())</a>
+                                    </h4>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xs-6 col-lg-3 mb-4">
-                        <div class="category category-default1 category-absolute banner-radius overlay-zoom">
-                            <a href="shop.html">
-                                <figure class="category-media">
-                                    <img src="~/images/categories/category2.jpg" alt="category" width="280"
-                                         height="280" style="background-color: #bcbdb7;" />
-                                </figure>
-                            </a>
-                            <div class="category-content">
-                                <h4 class="category-name font-weight-bold ls-l">
-                                    <a href="shop.html">Accessories</a>
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-lg-3 mb-4">
-                        <div class="category category-default1 category-absolute banner-radius overlay-zoom">
-                            <a href="shop.html">
-                                <figure class="category-media">
-                                    <img src="~/images/categories/category3.jpg" alt="category" width="280"
-                                         height="280" style="background-color: #ececef;" />
-                                </figure>
-                            </a>
-                            <div class="category-content">
-                                <h4 class="category-name font-weight-bold ls-l">
-                                    <a href="shop.html">
-                                        Fashionable
-                                        Women's
-                                    </a>
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-lg-3 mb-4">
-                        <div class="category category-default1 category-absolute banner-radius overlay-zoom">
-                            <a href="shop.html">
-                                <figure class="category-media">
-                                    <img src="~/images/categories/category4.jpg" alt="category" width="280"
-                                         height="280" style="background-color: #e8eded;" />
-                                </figure>
-                            </a>
-                            <div class="category-content font-weight-bold">
-                                <h4 class="category-name font-weight-bold ls-l">
-                                    <a href="shop.html">Cosmetic</a>
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
         </section>
@@ -174,7 +127,7 @@
         <section class="product-wrapper container appear-animate mt-6 mt-md-10 pt-4 pb-8" data-animation-options="{
                     'delay': '.3s'
                 }">
-            <h2 class="title title-center mb-5">Best Sellers</h2>
+            <h2 class="title title-center mb-5">Latests</h2>
             <div class="owl-carousel owl-theme row owl-nav-full cols-2 cols-md-3 cols-lg-4" data-owl-options="{
                         'items': 5,
                         'nav': false,
@@ -195,200 +148,56 @@
                             }
                         }
                     }">
-                <div class="product text-center">
-                    <figure class="product-media">
-                        <a href="product.html">
-                            <img src="~/images/demos/demo1/products/product1.jpg" alt="Blue Pinafore Denim Dress"
+                @foreach (var item in Model.Products.OrderByDescending(x => x.CreatedDate).Take(5))
+                {
+                    <div class="product text-center">
+                        <figure class="product-media">
+                            <a href="product.html">
+                                <img src="~/images/products/@item.ProductImages.FirstOrDefault(x=>x.StatusImage == true).ImageUrl" alt="Blue Pinafore Denim Dress"
                                  width="280" height="315" style="background-color: #f2f3f5;" />
-                        </a>
-                        <div class="product-label-group">
-                            <label class="product-label label-new">new</label>
-                        </div>
-                        <div class="product-action-vertical">
-                            <a href="#" class="btn-product-icon btn-cart" data-toggle="modal"
-                               data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i></a>
-                            <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist">
-                                <i class="d-icon-heart"></i>
                             </a>
-                        </div>
-                        <div class="product-action">
-                            <a href="#" class="btn-product btn-quickview" title="Quick View">Quick View</a>
-                        </div>
-                    </figure>
-                    <div class="product-details">
-                        <div class="product-cat">
-                            <a href="shop-grid-3cols.html">Clothing</a>
-                        </div>
-                        <h3 class="product-name">
-                            <a href="product.html">Solid pattern in fashion summer dress</a>
-                        </h3>
-                        <div class="product-price">
-                            <span class="price">$140.00</span>
-                        </div>
-                        <div class="ratings-container">
-                            <div class="ratings-full">
-                                <span class="ratings" style="width:100%"></span>
-                                <span class="tooltiptext tooltip-top"></span>
+                            <div class="product-label-group">
+                                <label class="product-label label-new">new</label>
                             </div>
-                            <a href="product.html" class="rating-reviews">( 12 reviews )</a>
+                            <div class="product-action-vertical">
+                                <a href="#" class="btn-product-icon btn-cart" data-toggle="modal"
+                               data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i></a>
+                                <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist">
+                                    <i class="d-icon-heart"></i>
+                                </a>
+                            </div>
+                            <div class="product-action">
+                                <a href="#" class="btn-product btn-quickview" title="Quick View">Quick View</a>
+                            </div>
+                        </figure>
+                        <div class="product-details">
+                            <div class="product-cat">
+                                <a href="shop-grid-3cols.html">@item.Category.Name</a>
+                            </div>
+                            <h3 class="product-name">
+                                <a href="product.html">@item.Name</a>
+                            </h3>
+                            <div class="product-price">
+                                @if (item.DiscountPercent > 0)
+                                {
+                                    <ins class="new-price">@(item.InitialPrice-(item.InitialPrice*item.DiscountPercent/100))</ins>
+                                    <del class="old-price">@item.InitialPrice</del>
+                                }
+                                else
+                                {
+                                    <span class="price">@item.InitialPrice</span>
+                                }
+                            </div>
+                            <div class="ratings-container">
+                                <div class="ratings-full">
+                                    <span class="ratings" style="width:@(item.ReviewSum/item.ReviewCount)%"></span>
+                                    <span class="tooltiptext tooltip-top"></span>
+                                </div>
+                                <a href="product.html" class="rating-reviews">( @item.ReviewCount reviews )</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="product text-center">
-                    <figure class="product-media">
-                        <a href="product.html">
-                            <img src="~/images/demos/demo1/products/product2.jpg" alt="Blue Pinafore Denim Dress"
-                                 width="280" height="315" style="background-color: #f2f3f5;" />
-                        </a>
-                        <div class="product-label-group">
-                            <span class="product-label label-sale">25% off</span>
-                        </div>
-                        <div class="product-action-vertical">
-                            <a href="#" class="btn-product-icon btn-cart" data-toggle="modal"
-                               data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i></a>
-                            <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist">
-                                <i class="d-icon-heart"></i>
-                            </a>
-                        </div>
-                        <div class="product-action">
-                            <a href="#" class="btn-product btn-quickview" title="Quick View">Quick View</a>
-                        </div>
-                    </figure>
-                    <div class="product-details">
-                        <div class="product-cat">
-                            <a href="shop-grid-3cols.html">Bags & Backpacks</a>
-                        </div>
-                        <h3 class="product-name">
-                            <a href="product.html">Mackintosh Poket backpack</a>
-                        </h3>
-                        <div class="product-price">
-                            <ins class="new-price">$125.99</ins><del class="old-price">$160.99</del>
-                        </div>
-                        <div class="ratings-container">
-                            <div class="ratings-full">
-                                <span class="ratings" style="width:60%"></span>
-                                <span class="tooltiptext tooltip-top"></span>
-                            </div>
-                            <a href="product.html" class="rating-reviews">( 8 reviews )</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="product text-center">
-                    <figure class="product-media">
-                        <a href="product.html">
-                            <img src="~/images/demos/demo1/products/product3.jpg" alt="Blue Pinafore Denim Dress"
-                                 width="280" height="315" style="background-color: #f2f3f5;" />
-                        </a>
-
-                        <div class="product-action-vertical">
-                            <a href="#" class="btn-product-icon btn-cart" data-toggle="modal"
-                               data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i></a>
-                            <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist">
-                                <i class="d-icon-heart"></i>
-                            </a>
-                        </div>
-                        <div class="product-action">
-                            <a href="#" class="btn-product btn-quickview" title="Quick View">Quick View</a>
-                        </div>
-                    </figure>
-                    <div class="product-details">
-                        <div class="product-cat">
-                            <a href="shop-grid-3cols.html">Clothing</a>
-                        </div>
-                        <h3 class="product-name">
-                            <a href="product.html">Fashionable Orginal Trucker</a>
-                        </h3>
-                        <div class="product-price">
-                            <span class="price">$78.64</span>
-                        </div>
-                        <div class="ratings-container">
-                            <div class="ratings-full">
-                                <span class="ratings" style="width:40%"></span>
-                                <span class="tooltiptext tooltip-top"></span>
-                            </div>
-                            <a href="product.html" class="rating-reviews">( 2 reviews )</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="product text-center">
-                    <figure class="product-media">
-                        <a href="product.html">
-                            <img src="~/images/demos/demo1/products/product4.jpg" alt="Blue Pinafore Denim Dress"
-                                 width="280" height="315" style="background-color: #f2f3f5;" />
-                        </a>
-                        <div class="product-label-group">
-                            <label class="product-label label-new">New</label>
-                        </div>
-                        <div class="product-action-vertical">
-                            <a href="#" class="btn-product-icon btn-cart" data-toggle="modal"
-                               data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i></a>
-                            <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist">
-                                <i class="d-icon-heart"></i>
-                            </a>
-                        </div>
-                        <div class="product-action">
-                            <a href="#" class="btn-product btn-quickview" title="Quick View">Quick View</a>
-                        </div>
-                    </figure>
-                    <div class="product-details">
-                        <div class="product-cat">
-                            <a href="shop-grid-3cols.html">Clothing</a>
-                        </div>
-                        <h3 class="product-name">
-                            <a href="product.html">Women Red Fur Overcoat</a>
-                        </h3>
-                        <div class="product-price">
-                            <span class="price">$184.00</span>
-                        </div>
-                        <div class="ratings-container">
-                            <div class="ratings-full">
-                                <span class="ratings" style="width:80%"></span>
-                                <span class="tooltiptext tooltip-top"></span>
-                            </div>
-                            <a href="product.html" class="rating-reviews">( 6 reviews )</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="product text-center">
-                    <figure class="product-media">
-                        <a href="product.html">
-                            <img src="~/images/demos/demo1/products/product2.jpg" alt="Blue Pinafore Denim Dress"
-                                 width="280" height="315" style="background-color: #f2f3f5;" />
-                        </a>
-                        <div class="product-label-group">
-                            <span class="product-label label-sale">25% off</span>
-                        </div>
-                        <div class="product-action-vertical">
-                            <a href="#" class="btn-product-icon btn-cart" data-toggle="modal"
-                               data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i></a>
-                            <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist">
-                                <i class="d-icon-heart"></i>
-                            </a>
-                        </div>
-                        <div class="product-action">
-                            <a href="#" class="btn-product btn-quickview" title="Quick View">Quick View</a>
-                        </div>
-                    </figure>
-                    <div class="product-details">
-                        <div class="product-cat">
-                            <a href="shop-grid-3cols.html">Bags & Backpacks</a>
-                        </div>
-                        <h3 class="product-name">
-                            <a href="product.html">Mackintosh Poket backpack</a>
-                        </h3>
-                        <div class="product-price">
-                            <ins class="new-price">$125.99</ins><del class="old-price">$160.99</del>
-                        </div>
-                        <div class="ratings-container">
-                            <div class="ratings-full">
-                                <span class="ratings" style="width:60%"></span>
-                                <span class="tooltiptext tooltip-top"></span>
-                            </div>
-                            <a href="product.html" class="rating-reviews">( 8 reviews )</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                }
         </section>
 
         <section class="banner-group mt-4">
@@ -396,66 +205,45 @@
                 <h2 class="title d-none">Banner Group</h2>
 
                 <div class="row justify-content-center">
-                    <div class="col-lg-4 col-sm-6 mb-4">
-                        <div class="banner banner-3 banner-fixed banner-radius content-middle appear-animate"
+                    @foreach (var item in Model.Advertisements)
+                    {
+                        <div class="col-lg-4 col-sm-6 mb-4">
+                            <div class=" @(item.Place == true?"banner banner-3":"banner banner-5") banner-fixed banner-radius content-middle appear-animate"
                              data-animation-options="{'name': 'fadeInLeftShorter', 'duration': '1s', 'delay': '.2s'}">
-                            <figure>
-                                <img src="~/images/demos/demo1/banners/banner1.jpg" alt="banner" width="380"
+                                <figure>
+                                    <img src="~/images/demos/demo1/banners/@item.ImageUrl" alt="banner" width="380"
                                      height="207" style="background-color: #836648;" />
-                            </figure>
-                            <div class="banner-content">
-                                <h3 class="banner-title text-white mb-1">For Men's</h3>
-                                <h4 class="banner-subtitle text-uppercase font-weight-normal text-white">
-                                    Starting at $29
-                                </h4>
-                                <hr class="banner-divider">
-                                <a href="shop.html" class="btn btn-white btn-link btn-underline">
-                                    Shop Now<i class="d-icon-arrow-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-6 mb-4 order-lg-auto order-sm-last">
-                        <div class="banner banner-4 banner-fixed banner-radius content-middle content-center appear-animate"
-                             data-animation-options="{'name': 'fadeIn', 'duration': '1s', 'delay': '.2s'}">
-                            <figure>
-                                <img src="~/images/demos/demo1/banners/banner2.jpg" alt="banner" width="350"
-                                     height="177" style="background-color: #1e1e1e;" />
-                            </figure>
-                            <div class="banner-content d-flex align-items-center w-100 text-left">
-                                <div class="mr-auto mb-4 mb-md-0">
-                                    <h4 class="banner-subtitle text-white">
-                                        Up to 20% Off<br><span class="ls-l">Black Friday</span>
+                                </figure>
+                                <div class="banner-content">
+                                    <h3 class="banner-title text-white mb-1">@item.Name</h3>
+                                    <h4 class="banner-subtitle text-uppercase font-weight-normal text-white">
+                                        @if (item.Name == "For Men's")
+                                        {
+                                        @Html.Raw(item.Title) @Math.Round(bannerDiscount,0);
+                                        }
+                                        else
+                                        {
+                                        @Html.Raw(item.Title)
+                                        }
                                     </h4>
-                                    <h3 class="banner-title text-primary font-weight-bold lh-1 mb-0">Sale</h3>
+                                    <hr class="banner-divider">
+                                    @if (item.Name == "Sale")
+                                    {
+                                        <a href="shop.html" class="btn btn-primary btn-outline btn-rounded font-weight-bold text-white">
+                                            Shop
+                                            Now<i class="d-icon-arrow-right"></i>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="shop.html" class="btn btn-white btn-link btn-underline">
+                                            Shop Now<i class="d-icon-arrow-right"></i>
+                                        </a>
+                                    }
                                 </div>
-                                <a href="shop.html"
-                                   class="btn btn-primary btn-outline btn-rounded font-weight-bold text-white">
-                                    Shop
-                                    Now<i class="d-icon-arrow-right"></i>
-                                </a>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-6 mb-4">
-                        <div class="banner banner-5 banner-fixed banner-radius content-middle appear-animate"
-                             data-animation-options="{'name': 'fadeInRightShorter', 'duration': '1s', 'delay': '.2s'}">
-                            <figure>
-                                <img src="~/images/demos/demo1/banners/banner3.jpg" alt="banner" width="380"
-                                     height="207" style="background-color: #97928b;" />
-                            </figure>
-                            <div class="banner-content">
-                                <h3 class="banner-title text-white mb-1">Fashions</h3>
-                                <h4 class="banner-subtitle text-uppercase font-weight-normal text-white">
-                                    30% Off
-                                </h4>
-                                <hr class="banner-divider">
-                                <a href="shop.html" class="btn btn-white btn-link btn-underline">
-                                    Shop Now<i class="d-icon-arrow-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
         </section>
@@ -844,24 +632,12 @@
                                 }
                             }
                         }">
-                    <figure>
-                        <img src="~/images/brands/1.png" alt="brand" width="180" height="100" />
-                    </figure>
-                    <figure>
-                        <img src="~/images/brands/2.png" alt="brand" width="180" height="100" />
-                    </figure>
-                    <figure>
-                        <img src="~/images/brands/3.png" alt="brand" width="180" height="100" />
-                    </figure>
-                    <figure>
-                        <img src="~/images/brands/4.png" alt="brand" width="180" height="100" />
-                    </figure>
-                    <figure>
-                        <img src="~/images/brands/5.png" alt="brand" width="180" height="100" />
-                    </figure>
-                    <figure>
-                        <img src="~/images/brands/6.png" alt="brand" width="180" height="100" />
-                    </figure>
+                    @foreach (var item in Model.Brands)
+                    {
+                        <figure>
+                            <img src="~/images/brands/@item.ImageUrl" alt="brand" width="180" height="100" />
+                        </figure>
+                    }
                 </div>
             </div>
         </section>

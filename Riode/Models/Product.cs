@@ -15,11 +15,13 @@ namespace Riode.Models
         public int DiscountPercent { get; set; }
         public string? SKU { get; set; }
         public DateTime? CreatedDate { get; set; }
+        public int? BrandId{ get; set; }
+        public Brand Brand { get; set; }        
+        public int? CategoryId{ get; set; }
+        public Category Category { get; set; }
 
         public ICollection<ProductColor>? ProductColors { get; set; }
         public ICollection<ProductImage>? ProductImages{ get; set; }
-        public ICollection<Brand>? Brands{ get; set; }
-        public ICollection<Category>? Categories{ get; set; }
         public ICollection<ProductBadge>? ProductBadges{ get; set; }
 
 
