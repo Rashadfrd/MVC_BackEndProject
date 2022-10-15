@@ -50,24 +50,32 @@
 
                             <ul class="product-nav">
                                 <li class="product-nav-prev">
-                                    <a href="#">
-                                        <i class="d-icon-arrow-left"></i> Prev
-                                        <span class="product-nav-popup">
-                                            <img src="~/images/product/product-thumb-prev.jpg"
-                                                 alt="product thumbnail" width="110" height="123">
-                                            <span class="product-name">Sed egtas Dnte Comfort</span>
-                                        </span>
-                                    </a>
+                                    @if (Model.Product.Id == 1)
+                                    {
+                                        <a asp-controller="Product" asp-action="Details" asp-route-id="@(ViewBag.maxId)">
+                                            <i class="d-icon-arrow-left"></i> Prev
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-controller="Product" asp-action="Details" asp-route-id="@(Model.Product.Id-1)">
+                                            <i class="d-icon-arrow-left"></i> Prev
+                                        </a>
+                                    }
                                 </li>
                                 <li class="product-nav-next">
-                                    <a asp-controller="Product" asp-action="Details" asp-route-id="@(Model.Product.Id+1)">
-                                        Next <i class="d-icon-arrow-right"></i>
-                                        <span class="product-nav-popup">
-                                            <img src="~/images/product/product-thumb-next.jpg"
-                                                 alt="product thumbnail" width="110" height="123">
-                                            <span class="product-name">Sed egtas Dnte Comfort</span>
-                                        </span>
-                                    </a>
+                                    @if (Model.Product.Id == ViewBag.maxId)
+                                    {
+                                        <a asp-controller="Product" asp-action="Details" asp-route-id="1">
+                                            Next <i class="d-icon-arrow-right"></i>
+                                        </a>    
+                                    }
+                                    else
+                                    {
+                                        <a asp-controller="Product" asp-action="Details" asp-route-id="@(Model.Product.Id+1)">
+                                           Next <i class="d-icon-arrow-right"></i>
+                                        </a>
+                                    }
                                 </li>
                             </ul>
                         </div>
@@ -80,10 +88,10 @@
                         @if (Model.Product.DiscountPercent > 0)
                         {
 
-                            <div class="product-price" style="display:inline; margin-right:10px">$ @Model.Product.InitialPrice</div>
+                            <div class="product-price" style="display:inline; margin-right:10px">$ @(Model.Product.InitialPrice-(Model.Product.InitialPrice*Model.Product.DiscountPercent/100))</div>
 
 
-                            <del class="old-price">$ @(Model.Product.InitialPrice-(Model.Product.InitialPrice*Model.Product.DiscountPercent/100))</del>
+                            <del class="old-price">$ @Model.Product.InitialPrice</del>
 
                         }
                         else
@@ -499,14 +507,14 @@
                                     <a href="product.html">@item.Name</a>
                                 </h3>
                                 <div class="product-price">
-                                    @if (item.DiscountPercent>0)
+                                    @if (item.DiscountPercent > 0)
                                     {
                                         <ins class="new-price">@(item.InitialPrice-(item.InitialPrice*item.DiscountPercent/100))</ins>
                                         <del class="old-price">@item.InitialPrice</del>
                                     }
                                     else
                                     {
-                                        <ins class="new-price">@item.InitialPrice</ins>
+                                        <ins class="old-price">@item.InitialPrice</ins>
                                     }
                                 </div>
                                 <div class="ratings-container">

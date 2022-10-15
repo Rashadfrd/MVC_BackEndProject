@@ -152,7 +152,7 @@
                 {
                     <div class="product text-center">
                         <figure class="product-media">
-                            <a href="product.html">
+                            <a asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">
                                 <img src="~/images/products/@item.ProductImages.FirstOrDefault(x=>x.StatusImage == true).ImageUrl" alt="Blue Pinafore Denim Dress"
                                  width="280" height="315" style="background-color: #f2f3f5;" />
                             </a>
@@ -175,7 +175,7 @@
                                 <a href="shop-grid-3cols.html">@item.Category.Name</a>
                             </div>
                             <h3 class="product-name">
-                                <a href="product.html">@item.Name</a>
+                                <a asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">@item.Name</a>
                             </h3>
                             <div class="product-price">
                                 @if (item.DiscountPercent > 0)
@@ -280,7 +280,7 @@
                 {
                     <div class="product text-center">
                         <figure class="product-media">
-                            <a href="product.html">
+                            <a asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">
                                 <img src="~/images/products/@item.ProductImages.FirstOrDefault(x=>x.StatusImage == true).ImageUrl" alt="Blue Pinafore Denim Dress"
                                  width="220" height="245" style="background-color: #f2f3f5;" />
                             </a>
@@ -300,7 +300,7 @@
                                 <a href="shop-grid-3cols.html">@item.Category.Name</a>
                             </div>
                             <h3 class="product-name">
-                                <a href="product.html">@item.Name</a>
+                                <a asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">@item.Name</a>
                             </h3>
                             <div class="product-price">
                                 @if (item.DiscountPercent>0)
@@ -514,14 +514,14 @@
                                 {
                                     <div class="product product-list-sm">
                                         <figure class="product-media">
-                                            <a href="product.html">
+                                            <a asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">
                                                 <img src="~/images/products/@item.ProductImages.FirstOrDefault(x=>x.StatusImage==true).ImageUrl" alt="product"
                                                  width="100" height="114" style="background-color: #f2f3f5;" />
                                             </a>
                                         </figure>
                                         <div class="product-details">
                                             <h3 class="product-name">
-                                                <a href="product.html">
+                                                <a asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">
                                                     @item.Name
                                                 </a>
                                             </h3>
@@ -559,14 +559,14 @@
                                 {
                                     <div class="product product-list-sm">
                                         <figure class="product-media">
-                                            <a href="product.html">
+                                            <a asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">
                                                 <img src="~/images/products/@item.ProductImages.FirstOrDefault(x=>x.StatusImage==true).ImageUrl" alt="product"
                                                  width="100" height="114" style="background-color: #f2f3f5;" />
                                             </a>
                                         </figure>
                                         <div class="product-details">
                                             <h3 class="product-name">
-                                                <a href="product.html">
+                                                <a asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">
                                                     @item.Name
                                                 </a>
                                             </h3>
@@ -604,14 +604,14 @@
                                 {
                                     <div class="product product-list-sm">
                                         <figure class="product-media">
-                                            <a href="product.html">
+                                            <a asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">
                                                 <img src="~/images/products/@item.ProductImages.FirstOrDefault(x=>x.StatusImage==true).ImageUrl" alt="product"
                                                  width="100" height="114" style="background-color: #f2f3f5;" />
                                             </a>
                                         </figure>
                                         <div class="product-details">
                                             <h3 class="product-name">
-                                                <a href="product.html">
+                                                <a asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">
                                                     @item.Name
                                                 </a>
                                             </h3>
@@ -649,14 +649,14 @@
                                 {
                                     <div class="product product-list-sm">
                                         <figure class="product-media">
-                                            <a href="product.html">
+                                            <a asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">
                                                 <img src="~/images/products/@item.ProductImages.FirstOrDefault(x=>x.StatusImage==true).ImageUrl" alt="product"
                                                  width="100" height="114" style="background-color: #f2f3f5;" />
                                             </a>
                                         </figure>
                                         <div class="product-details">
                                             <h3 class="product-name">
-                                                <a href="product.html">
+                                                <a asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">
                                                     @item.Name
                                                 </a>
                                             </h3>

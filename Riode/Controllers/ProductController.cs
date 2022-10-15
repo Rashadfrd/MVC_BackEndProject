@@ -30,6 +30,7 @@ namespace Riode.Controllers
             if (vm.Product is null) return NotFound();
             var filter = vm.Product.Category.Name;
             vm.Products = _context.Products.Include(x => x.ProductImages).Include(x=>x.Category).Where(x => x.Category.Name == filter && x.Id != id);
+            ViewBag.maxId = _context.Products.Max(x => x.Id);
             return View(vm);
         }
     }

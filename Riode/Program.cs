@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Riode.DAL;
+using Riode.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddDbContext<RiodeContext>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 });
+builder.Services.AddScoped<LayoutService>();
 
 var app = builder.Build();
 
