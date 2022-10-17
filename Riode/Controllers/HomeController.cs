@@ -24,6 +24,13 @@ namespace Riode.Controllers
             vm.Advertisements = _context.Advertisements.Where(x => x.IsDeleted == false);
             return View(vm);
         }
+        public IActionResult Modal(int? id)
+        {
+            if (id is null) return BadRequest();
+            var product = _context.Products.FirstOrDefault(x => x.Id == id);
+            if (product is null) return NotFound();
+            return PartialView("_ModalPartialView", product);
+        }
 
     }
 }

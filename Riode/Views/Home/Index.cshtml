@@ -8,6 +8,7 @@
     int featuresItemCount = 1;
     var bannerDiscount = Model.Products.Where(x => x.CategoryId == 1).Min(x => x.InitialPrice);
 }
+
 <main class="main">
     <div class="page-content">
         <section class="intro-section">
@@ -167,7 +168,7 @@
                                 </a>
                             </div>
                             <div class="product-action">
-                                <a href="#" class="btn-product btn-quickview" title="Quick View">Quick View</a>
+                                <a asp-controller="Home" asp-action="Modal" asp-route-id="@item.Id" class="btn-product btn-quickvieww" title="Quick View">Quick View</a>
                             </div>
                         </figure>
                         <div class="product-details">
@@ -198,6 +199,7 @@
                         </div>
                     </div>
                 }
+            </div>
         </section>
 
         <section class="banner-group mt-4">
@@ -303,14 +305,14 @@
                                 <a asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">@item.Name</a>
                             </h3>
                             <div class="product-price">
-                                @if (item.DiscountPercent>0)
+                                @if (item.DiscountPercent > 0)
                                 {
-                                 <ins class="new-price">@(item.InitialPrice-(item.InitialPrice*item.DiscountPercent/100))</ins>   
-                                 <del class="old-price">@item.InitialPrice</del>   
+                                    <ins class="new-price">@(item.InitialPrice-(item.InitialPrice*item.DiscountPercent/100))</ins>
+                                    <del class="old-price">@item.InitialPrice</del>
                                 }
                                 else
                                 {
-                                <span class="price">@item.InitialPrice</span>
+                                    <span class="price">@item.InitialPrice</span>
                                 }
                             </div>
                             <div class="ratings-container">
@@ -323,12 +325,13 @@
                         </div>
                     </div>
                 }
+            </div>
         </section>
 
         <section class="banner banner-background parallax text-center" data-option="{'offset': -60}"
                  @{
-            var slider = Model.Sliders.OrderByDescending(x=>x.Order).FirstOrDefault();
-}
+                 var slider = Model.Sliders.OrderByDescending(x=>x.Order).FirstOrDefault();
+                 }
                  data-image-src="~/images/demos/demo1/@slider.ImageUrl" style="background-color: #2d2f33;">
             <div class="container">
                 <div class="banner-content appear-animate"
@@ -687,4 +690,30 @@
             </div>
         </section>
     </div>
+    <div class="modal-dialog modal-lg">
+
+    <div class=" product product-single row product-popup">
+    </div>
+    </div>
 </main>
+
+@section scripts{
+    <script>
+        $(document).ready(function() {
+            $(document).on("click", ".btn-quickvieww", function(e) {
+                e.preventDefault();
+                let url = $(this).attr("href")
+                getProduct(url)
+            })
+        })
+        function getProduct(url) {
+            $.ajax({
+                type: "GET",
+                url: url,
+            }).done(function(res) {
+                $(".product-popup").html(res)
+                console.log(res)
+            });
+        }
+    </script>
+}
