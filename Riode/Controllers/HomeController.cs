@@ -27,7 +27,12 @@ namespace Riode.Controllers
         public IActionResult Modal(int? id)
         {
             if (id is null) return BadRequest();
-            var product = _context.Products.FirstOrDefault(x => x.Id == id);
+            var product = _context.Products
+                .Include(x=>x.ProductImages)
+                .Include(x=>x.Category)
+                .Include(x=>x.ProductBadges)
+                .Include(x=>x.Brand)
+                .FirstOrDefault(x => x.Id == id);
             if (product is null) return NotFound();
             return PartialView("_ModalPartialView", product);
         }

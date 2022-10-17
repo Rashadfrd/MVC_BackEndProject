@@ -168,7 +168,7 @@
                                 </a>
                             </div>
                             <div class="product-action">
-                                <a asp-controller="Home" asp-action="Modal" asp-route-id="@item.Id" class="btn-product btn-quickvieww" title="Quick View">Quick View</a>
+                                <a asp-controller="Home" asp-action="Modal" asp-route-id="@item.Id" class="btn-product btn-quickvieww" data-bs-toggle="modal" data-bs-target="#myModal" title="Quick View">Quick View</a>
                             </div>
                         </figure>
                         <div class="product-details">
@@ -294,7 +294,7 @@
                                 </a>
                             </div>
                             <div class="product-action">
-                                <a href="#" class="btn-product btn-quickview" title="Quick View">Quick View</a>
+                                <a asp-controller="Home" asp-action="Modal" asp-route-id="@item.Id" class="btn-product btn-quickvieww" data-bs-toggle="modal" data-bs-target="#myModal" title="Quick View">Quick View</a>
                             </div>
                         </figure>
                         <div class="product-details">
@@ -690,10 +690,23 @@
             </div>
         </section>
     </div>
-    <div class="modal-dialog modal-lg">
 
-    <div class=" product product-single row product-popup">
-    </div>
+    <div id="myModal" class="modal modal-fade" style="margin-top:70px;" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content w-100" style="border-radius:3%; padding:4%">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
 
@@ -711,7 +724,7 @@
                 type: "GET",
                 url: url,
             }).done(function(res) {
-                $(".product-popup").html(res)
+                $(".modal-content").html(res)
                 console.log(res)
             });
         }
