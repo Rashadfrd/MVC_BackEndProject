@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Riode.Models;
 
 namespace Riode.DAL
 {
-    public class RiodeContext:DbContext
+    public class RiodeContext:IdentityDbContext
     {
         public RiodeContext(DbContextOptions<RiodeContext>options):base(options)
         {
@@ -19,5 +20,6 @@ namespace Riode.DAL
         public DbSet<ProductColor> ProductColors { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<Advertisement> Advertisements { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
     }
 }

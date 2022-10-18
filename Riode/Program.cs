@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Riode.DAL;
+using Riode.Models;
 using Riode.Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,12 @@ builder.Services.AddDbContext<RiodeContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 });
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddIdentity<AppUser, IdentityRole>(con =>
+{
+    con.Password.RequiredLength = 8;
+    con.Password.RequireNonAlphanumeric = false;
+    con.User.RequireUniqueEmail = true;
+}).AddDefaultTokenProviders().AddEntityFrameworkStores<RiodeContext>();
 builder.Services.AddScoped<LayoutService>();
 
 var app = builder.Build();
@@ -23,6 +31,8 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
