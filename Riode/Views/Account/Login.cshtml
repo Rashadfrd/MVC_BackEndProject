@@ -1,7 +1,8 @@
-﻿@{
+﻿@using Riode.ViewModels
+@{
     ViewData["Title"] = "Login";
 }
-@model AppUser
+@model UserLoginVM
 <style>
     .registerLink:hover{
         color:black;
@@ -26,17 +27,19 @@
                             <div class="tab-pane active" id="signin">
                                 <form method="post" asp-controller="Account" asp-action="Login">
                                     <div class="form-group mb-3">
-                                        <input type="text" class="form-control" id="singin-email" name="singin-email" placeholder="Username or Email Address *" required />
+                                        <input asp-for="Email" class="form-control" placeholder="Email Address *" />
+                                        <span style="color:red; font-size:13px" asp-validation-for="Email"></span>
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" class="form-control" id="singin-password" name="singin-password" placeholder="Password *"
-                                               required />
+                                        <input asp-for="Password" class="form-control" placeholder="Password *" />
+                                        <span style="color:red; font-size:13px" asp-validation-for="Password"></span>
+                                    </div>
+                                    <div style="color:red; font-size:13px" asp-validation-summary="ModelOnly">
                                     </div>
                                     <div class="form-footer">
                                         <div class="form-checkbox">
-                                            <input type="checkbox" class="custom-checkbox" id="signin-remember"
-                                                   name="signin-remember" />
-                                            <label class="form-control-label" for="signin-remember">
+                                            <input class="custom-checkbox" asp-for="RememberMe" />
+                                            <label class="form-control-label" asp-for="RememberMe">
                                                 Remember
                                                 me
                                             </label>

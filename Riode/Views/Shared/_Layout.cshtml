@@ -33,7 +33,7 @@
     </script>
 
 
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" type="text/css" href="~/vendor/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="~/vendor/animate/animate.min.css">
     <!-- Plugins CSS File -->
@@ -81,10 +81,30 @@
                         <span class="divider"></span>
                         <a href="contact-us.html" class="contact d-lg-show"><i class="d-icon-map"></i>Contact</a>
                         <a href="#" class="help d-lg-show"><i class="d-icon-info"></i> Need Help</a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="dropdown ml-5">
+                                <a href="#language"><i class="d-icon-user me-2 fs-4"></i>@User.Identity.Name</a>
+                                <ul style="width:115px !important;" class="dropdown-box">
+                                    <li>
+                                        <a style="font-size:13px" href="#USD"><i class="d-icon-user me-2 fs-3"></i> My Account</a>
+                                    </li>
+                                    <li>
+                                        <a style="font-size:13px" href="#EUR"><i class="fa-solid fa-sliders me-2 fs-3"></i>Settings</a>
+                                    </li>
+                                    <li>
+                                        <a style="font-size:13px" asp-controller="Account" asp-action="SignOut"><i class="fa-solid fa-arrow-right-from-bracket me-2 fs-3"></i>Sign Out</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
                         <a asp-controller="Account" asp-action="Login" class="d-flex justify-content-center"><i class="d-icon-user me-2 fs-4"></i> <span>Sign in</span></a>
                         <span class="delimiter">/</span>
                         <a class="m-0 p-0" asp-controller="Account" asp-action="Register">Register</a>
                         <!-- End of Login -->
+                        }
                     </div>
                 </div>
             </div>
