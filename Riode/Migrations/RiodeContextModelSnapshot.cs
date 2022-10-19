@@ -333,7 +333,7 @@ namespace Riode.Migrations
                     b.Property<DateTime?>("IsModified")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("MainCategoryId")
+                    b.Property<int?>("MainCategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -501,6 +501,40 @@ namespace Riode.Migrations
                     b.ToTable("ProductColors");
                 });
 
+            modelBuilder.Entity("Riode.Models.ProductComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductComments");
+                });
+
             modelBuilder.Entity("Riode.Models.ProductImage", b =>
                 {
                     b.Property<int>("Id")
@@ -657,9 +691,7 @@ namespace Riode.Migrations
                 {
                     b.HasOne("Riode.Models.Category", "MainCategory")
                         .WithMany("SubCategory")
-                        .HasForeignKey("MainCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MainCategoryId");
 
                     b.Navigation("MainCategory");
                 });
@@ -717,6 +749,25 @@ namespace Riode.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Riode.Models.ProductComment", b =>
+                {
+                    b.HasOne("Riode.Models.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Riode.Models.Product", "Product")
+                        .WithMany("ProductComments")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Riode.Models.ProductImage", b =>
                 {
                     b.HasOne("Riode.Models.Product", "Product")
@@ -750,6 +801,8 @@ namespace Riode.Migrations
                     b.Navigation("ProductBadges");
 
                     b.Navigation("ProductColors");
+
+                    b.Navigation("ProductComments");
 
                     b.Navigation("ProductImages");
                 });

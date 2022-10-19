@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Riode.DAL;
 using Riode.Models;
 using Riode.ViewModels;
+using System.Text.RegularExpressions;
 
 namespace Riode.Controllers
 {
@@ -49,6 +50,9 @@ namespace Riode.Controllers
             ProductVM vm = new ProductVM();
             vm.Product = _context.Products
                 .Include(x => x.ProductImages)
+                .Include(x => x.ProductComments)
+                .Include(x => x.ProductComments)
+                .ThenInclude(x=>x.AppUser)
                 .Include(x => x.Category)
                 .Include(x => x.ProductColors)
                 .ThenInclude(x => x.Color)
@@ -74,6 +78,37 @@ namespace Riode.Controllers
         //    var filteredProducts = _context.Products
         //    return View();
         //}
+
+
+        [HttpPost]
+        public IActionResult PostComment(ProductComment comment)
+        {
+            RouteValueDictionary routeValueDictionary = new RouteValueDictionary();
+            routeValueDictionary.Add("ReturnUrl", "/Product/Details/" + comment.ProductId);
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account", routeValueDictionary);
+            Product p = _context.Products.FirstOrDefault(p => p.Id == comment.ProductId && p.IsDeleted == false);
+            if (p is null) return NotFound();
+            if (!(comment.Rating >= 0 && comment.Rating <= 100) || comment is null) return RedirectToAction(nameof(Product), comment.ProductId);
+            AppUser user = _context.AppUsers.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            if (user is null) return NotFound();
+            p.ReviewSum += comment.Rating;
+            p.ReviewCount++;
+            comment.AppUser = user;
+            comment.Product = p;
+            comment.CreatedTime = DateTime.UtcNow;
+            if (comment.Text.Contains("nigga"))
+            {
+                string input = comment.Text;
+                string pattern = @"\bnigga\b";
+                string replace = "****";
+                string result = Regex.Replace(input, pattern, replace);
+                comment.Text = result;
+            }
+            _context.ProductComments.Add(comment);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Details), new { id = p.Id });
+        }
+
 
 
         public IActionResult DeleteBasket(int? id)
