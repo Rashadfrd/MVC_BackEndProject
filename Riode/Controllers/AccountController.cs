@@ -14,8 +14,15 @@ namespace Riode.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
+
+        public IActionResult MyAccount()
+        {
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Index", "Home");
+            return View();
+        }
         public IActionResult Login()
         {
+            if (User.Identity.IsAuthenticated) return RedirectToAction("Index", "Home");
             return View();
         }
 
@@ -46,6 +53,7 @@ namespace Riode.Controllers
 
         public IActionResult Register()
         {
+            if (User.Identity.IsAuthenticated) return RedirectToAction("Index", "Home");
             return View();
         }
 

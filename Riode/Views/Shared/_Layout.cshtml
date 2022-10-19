@@ -42,6 +42,7 @@
     <link rel="stylesheet" type="text/css" href="~/vendor/photoswipe/photoswipe.min.css">
     <link rel="stylesheet" type="text/css" href="~/vendor/photoswipe/default-skin/default-skin.min.css">
 
+
     <!-- Main CSS File -->
     @RenderSection("links",false)
     <link rel="stylesheet" type="text/css" href="~/css/demo1.min.css">
@@ -87,7 +88,7 @@
                                 <a href="#language"><i class="d-icon-user me-2 fs-4"></i>@User.Identity.Name</a>
                                 <ul style="width:115px !important;" class="dropdown-box">
                                     <li>
-                                        <a style="font-size:13px" href="#USD"><i class="d-icon-user me-2 fs-3"></i> My Account</a>
+                                        <a style="font-size:13px" asp-controller="Account" asp-action="MyAccount"><i class="d-icon-user me-2 fs-3"></i> My Account</a>
                                     </li>
                                     <li>
                                         <a style="font-size:13px" href="#EUR"><i class="fa-solid fa-sliders me-2 fs-3"></i>Settings</a>
@@ -215,7 +216,7 @@
                                     <a asp-controller="Home" asp-action="Index">Home</a>
                                 </li>
                                 <li>
-                                    <a href="shop.html">Categories</a>
+                                    <a asp-controller="Product" asp-action="Index">Categories</a>
                                     <div class="megamenu">
                                         <div class="row">
                                             <div class="col-6 col-sm-4 col-md-3 col-lg-4">

@@ -14,9 +14,34 @@ namespace Riode.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public IActionResult Index(int? id)
         {
-            return View();
+            ProductVM vm = new ProductVM();
+            vm.Categories = _context.Categories.Include(x => x.SubCategory);
+             var products = _context.Products
+                .Include(x => x.ProductImages)
+                .Include(x => x.Category)
+                .Include(x => x.ProductColors)
+                .ThenInclude(x => x.Color)
+                .Include(x => x.ProductBadges)
+                .ThenInclude(x => x.Badge).AsQueryable();
+            if (id != null && id != 0)
+            {
+                if (id == 1)
+                {
+                    products = products.Where(x=>x.CategoryId != 6 && x.CategoryId != 8 && x.CategoryId != 10); 
+                }
+                else if (id == 2)
+                {
+                    products = products.Where(x => x.CategoryId != 5 && x.CategoryId != 7 && x.CategoryId != 9);
+                }
+                else
+                {
+                    products = products.Where(x => x.CategoryId == id);
+                }
+            }
+            vm.Products = products.ToList();
+            return View(vm);
         }
         public IActionResult Details(int? id)
         {
@@ -30,11 +55,25 @@ namespace Riode.Controllers
                 .Include(x => x.ProductBadges)
                 .ThenInclude(x => x.Badge).FirstOrDefault(x => x.Id == id);
             if (vm.Product is null) return NotFound();
-            var filter = vm.Product.Category.Name;
-            vm.Products = _context.Products.Include(x => x.ProductImages).Include(x => x.Category).Where(x => x.Category.Name == filter && x.Id != id);
+            //var filter = vm.Product.Category.Name;
+            //vm.Products = _context.Products.Include(x => x.ProductImages).Include(x => x.Category).Where(x => x.Category.Name == filter && x.Id != id).ToList();
+            if (vm.Product.Category.MainCategoryId == 1)
+            {
+                vm.Products = _context.Products.Include(x => x.ProductImages).Include(x => x.Category).Where(x => x.CategoryId != 6 && x.CategoryId != 8 && x.CategoryId != 10).ToList();
+            }
+            else if (vm.Product.Category.MainCategoryId == 2)
+            {
+                vm.Products = _context.Products.Include(x => x.ProductImages).Include(x => x.Category).Where(x => x.CategoryId != 5 && x.CategoryId != 7 && x.CategoryId != 9).ToList();
+            }
             ViewBag.maxId = _context.Products.Max(x => x.Id);
             return View(vm);
         }
+        //public IActionResult Filter(int? id)
+        //{
+        //    if (id is null) return BadRequest();
+        //    var filteredProducts = _context.Products
+        //    return View();
+        //}
 
 
         public IActionResult DeleteBasket(int? id)

@@ -327,14 +327,22 @@ namespace Riode.Migrations
                     b.Property<bool?>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool?>("IsMain")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("IsModified")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("MainCategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MainCategoryId");
 
                     b.ToTable("Categories");
                 });
@@ -645,6 +653,17 @@ namespace Riode.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Riode.Models.Category", b =>
+                {
+                    b.HasOne("Riode.Models.Category", "MainCategory")
+                        .WithMany("SubCategory")
+                        .HasForeignKey("MainCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MainCategory");
+                });
+
             modelBuilder.Entity("Riode.Models.Product", b =>
                 {
                     b.HasOne("Riode.Models.Brand", "Brand")
@@ -722,6 +741,8 @@ namespace Riode.Migrations
             modelBuilder.Entity("Riode.Models.Category", b =>
                 {
                     b.Navigation("Products");
+
+                    b.Navigation("SubCategory");
                 });
 
             modelBuilder.Entity("Riode.Models.Product", b =>

@@ -23,6 +23,7 @@ namespace Riode.Models
         public ICollection<ProductColor>? ProductColors { get; set; }
         public ICollection<ProductImage>? ProductImages{ get; set; }
         public ICollection<ProductBadge>? ProductBadges{ get; set; }
+        public ICollection<ProductComment> ProductComments { get; set; }
 
 
     }
