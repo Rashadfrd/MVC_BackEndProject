@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "AUvJkaekF+euFJ3tuYq/8QNGsq4rivcH9AiNR/Lni2Y=",
+  "Hash": "OF4afd0ldX1A1tWqSfRNomEZJXpBr3Ce2YQMiMmRTiY=",
   "Source": "Riode",
   "BasePath": "_content/Riode",
   "Mode": "Default",
@@ -3925,6 +3925,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\demos\\demo1\\products\\product9.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Rashad\\Desktop\\MVC_BackEndProject\\Riode\\wwwroot\\images\\demos\\demo1\\slides\\219f14f0-f3c9-45df-b650-35c9395a03a8Screenshot (1).png",
+      "SourceId": "Riode",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Rashad\\Desktop\\MVC_BackEndProject\\Riode\\wwwroot\\",
+      "BasePath": "_content/Riode",
+      "RelativePath": "images/demos/demo1/slides/219f14f0-f3c9-45df-b650-35c9395a03a8Screenshot (1).png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\demos\\demo1\\slides\\219f14f0-f3c9-45df-b650-35c9395a03a8Screenshot (1).png"
     },
     {
       "Identity": "C:\\Users\\Rashad\\Desktop\\MVC_BackEndProject\\Riode\\wwwroot\\images\\demos\\demo1\\slides\\slide1.jpg",

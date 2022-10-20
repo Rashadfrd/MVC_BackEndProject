@@ -4,12 +4,13 @@
 }
 <!-- Content -->
 @model Slider
-<form method="post" asp-controller="Slider" asp-action="Create">
+<form method="post" asp-controller="Slider" asp-action="Create" enctype="multipart/form-data">
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span>Slider Create</h4>
 
         <div class="mb-3">
-            <input class="form-control" type="file" id="formFile">
+            <input class="form-control" asp-for="ImageFile">
+            <span class="text-danger" asp-validation-for="ImageFile"></span>
         </div>
         <!-- HTML5 Inputs -->
         <div class="card mb-4">
@@ -18,8 +19,8 @@
                     <label asp-for="Title" class="col-md-2 col-form-label"></label>
                     <div class="col-md-10">
                         <input asp-for="Title" class="form-control" />
+                        <span class="text-danger" asp-validation-for="Title"></span>
                     </div>
-                    <span asp-validation-for="Title"></span>
                 </div>
                 <div class="mb-3 row">
                     <label asp-for="SubTitle" class="col-md-2 col-form-label"></label>
@@ -36,7 +37,7 @@
                 <div class="col-md mb-3">
                     <label asp-for="Place" class="col-md-2 col-form-label"></label>
                     <div class="form-check form-check-inline mt-3">
-                        <input class="form-check-input"  type="radio" name="Place" id="inlineRadio1" value="True">
+                        <input class="form-check-input" type="radio" name="Place" id="inlineRadio1" value="True">
                         <label class="form-check-label" for="inlineRadio1">Left</label>
                     </div>
                     <div class="form-check form-check-inline">
@@ -51,7 +52,8 @@
                 <div class="mb-3 row">
                     <label asp-for="Order" class="col-md-2 col-form-label"></label>
                     <div class="col-md-10">
-                        <input class="form-control" asp-for="Order"/>
+                        <input class="form-control" asp-for="Order" />
+                        <span class="text-danger" asp-validation-for="Order"></span>
                     </div>
                 </div>
             </div>

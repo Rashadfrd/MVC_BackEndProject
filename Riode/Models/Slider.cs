@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Riode.Models
 {
@@ -14,6 +15,9 @@ namespace Riode.Models
         [Required]
         public int Order { get; set; }
         public bool? Place { get; set; }
+
+        [NotMapped]
+        public IFormFile? ImageFile { get; set; }
 
     }
 }

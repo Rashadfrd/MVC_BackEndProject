@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Riode.DAL;
 using Riode.Models;
+using Riode.Utilities.Extensions;
 
 namespace Riode.Areas.Manage.Controllers
 {
@@ -8,9 +9,11 @@ namespace Riode.Areas.Manage.Controllers
     public class SliderController : Controller
     {
         private readonly RiodeContext _context;
-        public SliderController(RiodeContext context)
+        private readonly IWebHostEnvironment _env;
+        public SliderController(RiodeContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
         public IActionResult Index()
         {
@@ -25,8 +28,22 @@ namespace Riode.Areas.Manage.Controllers
         [HttpPost]
         public IActionResult Create(Slider? slider)
         {
-            if(!ModelState.IsValid) return View();
             if (slider is null) return BadRequest();
+            if (slider.ImageFile is null) ModelState.AddModelError("ImageFile", "Please, choose image");
+            if (!ModelState.IsValid) return View();
+            var file = slider.ImageFile;
+            if (!file.CheckFileExtension("image/"))
+            {
+                ModelState.AddModelError("ImageFile", "File must be image");
+                return View();
+            }
+            if (file.CheckFileSize(2))
+            {
+                ModelState.AddModelError("ImageFile", "File size can not be more than 2 mb!");
+                return View();
+            }
+            string fileName = file.SaveImage(_env.WebRootPath, "images/demos/demo1/slides/");
+            slider.ImageUrl = fileName;
             slider.IsDeleted = false;
             _context.Sliders.Add(slider);
             _context.SaveChanges();
@@ -38,6 +55,11 @@ namespace Riode.Areas.Manage.Controllers
             if (id is null) return BadRequest();
             var slider = _context.Sliders.Find(id);
             if (slider is null) return NotFound();
+            string path = Path.Combine(_env.WebRootPath, "images/demos/demo1/slides/", slider.ImageUrl);
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
             if (slider.IsDeleted == false)
             {
                 slider.IsDeleted = true;
@@ -47,6 +69,7 @@ namespace Riode.Areas.Manage.Controllers
             _context.Sliders.Remove(slider);
             }
             _context.SaveChanges();
+
             return RedirectToAction(nameof(Index));
         }
 
