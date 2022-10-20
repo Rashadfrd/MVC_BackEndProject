@@ -132,18 +132,18 @@
                     <li class="menu-item active open">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons bx bx-layout"></i>
-                            <div data-i18n="Layouts">Layouts</div>
+                            <div data-i18n="Layouts">Create</div>
                         </a>
 
                         <ul class="menu-sub">
                             <li class="menu-item">
-                                <a href="layouts-without-menu.html" class="menu-link">
-                                    <div data-i18n="Without menu">Without menu</div>
+                                <a asp-controller="Slider" asp-action="Create" class="menu-link">
+                                    <div data-i18n="Without menu">Add Slider</div>
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="layouts-without-navbar.html" class="menu-link">
-                                    <div data-i18n="Without navbar">Without navbar</div>
+                                <a asp-controller="Slider" asp-action="Index" class="menu-link">
+                                    <div data-i18n="Without navbar">Sliders Table</div>
                                 </a>
                             </li>
                             <li class="menu-item active">
@@ -443,7 +443,6 @@
             <div class="layout-page">
                 <!-- Navbar -->
 
-                @RenderBody()
                 <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
                      id="layout-navbar">
                     <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
@@ -545,19 +544,7 @@
                     <!-- Content -->
 
                     <div class="container-xxl flex-grow-1 container-p-y">
-                        <!-- Layout Demo -->
-                        <div class="layout-demo-wrapper">
-                            <div class="layout-demo-placeholder">
-                                <img src="~/manage/assets/img/layouts/layout-container-light.png"
-                                     class="img-fluid"
-                                     alt="Layout container"
-                                     data-app-light-img="layouts/layout-container-light.png"
-                                     data-app-dark-img="layouts/layout-container-dark.png" />
-                            </div>
-                            <div class="layout-demo-info">
-                                <h4>Layout container</h4>
-                                <p>Container layout sets a <code>max-width</code> at each responsive breakpoint.</p>
-                            </div>
+                           @RenderBody()
                         </div>
                         <!--/ Layout Demo -->
                     </div>

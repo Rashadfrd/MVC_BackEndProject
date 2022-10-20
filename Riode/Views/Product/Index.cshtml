@@ -192,7 +192,7 @@
                         }
                     </div>
                     <nav class="toolbox toolbox-pagination">
-                        <p class="show-info">Showing <span>12 of 56</span> Products</p>
+                        <p class="show-info">Showing <span>@Model.Products.Count() of @ViewBag.OverallProductCount</span> Products</p>
                         <ul class="pagination">
                             <li class="page-item">
                                 @if (ViewBag.ActivePage > 1 && ViewBag.ActivePage <= ViewBag.PageCount)
