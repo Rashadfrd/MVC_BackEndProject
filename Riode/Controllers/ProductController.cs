@@ -15,8 +15,9 @@ namespace Riode.Controllers
         {
             _context = context;
         }
-        public IActionResult Index(int? id)
+        public IActionResult Index(int? id,int? page = 1)
         {
+            if (page < 0) page = 1;
             ProductVM vm = new ProductVM();
             vm.Categories = _context.Categories.Include(x => x.SubCategory);
              var products = _context.Products
@@ -26,19 +27,29 @@ namespace Riode.Controllers
                 .ThenInclude(x => x.Color)
                 .Include(x => x.ProductBadges)
                 .ThenInclude(x => x.Badge).AsQueryable();
-            if (id != null && id != 0)
+            ViewBag.ActivePage = page;
+            ViewBag.PageCount = Math.Ceiling((double)products.Count() / 3);
+            if (id != null)
             {
                 if (id == 1)
                 {
-                    products = products.Where(x=>x.CategoryId != 6 && x.CategoryId != 8 && x.CategoryId != 10); 
+                    products = products.Where(x=>x.CategoryId != 6 && x.CategoryId != 8 && x.CategoryId != 10).AsQueryable();
+                    ViewBag.PageCount = Math.Ceiling((double)products.Count() / 3);
+                    products = products.Skip(((int)page - 1) * 3).Take(3);
                 }
                 else if (id == 2)
                 {
-                    products = products.Where(x => x.CategoryId != 5 && x.CategoryId != 7 && x.CategoryId != 9);
+                    products = products.Where(x => x.CategoryId != 5 && x.CategoryId != 7 && x.CategoryId != 9).Skip(((int)page - 1) * 3).Take(3);
+                    ViewBag.PageCount = Math.Ceiling((double)products.Count() / 3);
+                }
+                else if (id == 0)
+                {
+                    products = products.Skip(((int)page - 1) * 3).Take(3);
                 }
                 else
                 {
-                    products = products.Where(x => x.CategoryId == id);
+                    products = products.Where(x => x.CategoryId == id).Skip(((int)page - 1) * 3).Take(3);
+                    ViewBag.PageCount = Math.Ceiling((double)products.Count() / 3);
                 }
             }
             vm.Products = products.ToList();
