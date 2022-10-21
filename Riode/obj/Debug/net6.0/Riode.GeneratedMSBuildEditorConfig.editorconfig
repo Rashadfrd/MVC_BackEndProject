@@ -15,6 +15,14 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\Rashad\Desktop\MVC_BackEndProject\Riode
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/Rashad/Desktop/MVC_BackEndProject/Riode/Areas/Manage/Views/Advertisement/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcTWFuYWdlXFZpZXdzXEFkdmVydGlzZW1lbnRcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Rashad/Desktop/MVC_BackEndProject/Riode/Areas/Manage/Views/Advertisement/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcTWFuYWdlXFZpZXdzXEFkdmVydGlzZW1lbnRcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Rashad/Desktop/MVC_BackEndProject/Riode/Areas/Manage/Views/Dashboard/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcTWFuYWdlXFZpZXdzXERhc2hib2FyZFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

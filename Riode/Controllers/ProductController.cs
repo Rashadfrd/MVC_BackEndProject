@@ -34,7 +34,8 @@ namespace Riode.Controllers
             {
                 if (id == 1)
                 {
-                    products = products.Where(x=>x.CategoryId != 6 && x.CategoryId != 8 && x.CategoryId != 10).AsQueryable();
+                    //products = products.Where(x => x.CategoryId != 6 && x.CategoryId != 8 && x.CategoryId != 10).AsQueryable();
+                    products = products.Where(x => x.MainCategoryId == id).AsQueryable();
                     ViewBag.OverallProductCount = products.Count();
                     ViewBag.PageCount = Math.Ceiling((double)products.Count() / 3);
                     products = products.Skip(((int)page - 1) * 3).Take(3);
@@ -43,7 +44,8 @@ namespace Riode.Controllers
                 }
                 else if (id == 2)
                 {
-                    products = products.Where(x => x.CategoryId != 5 && x.CategoryId != 7 && x.CategoryId != 9).AsQueryable();
+                    //products = products.Where(x => x.CategoryId != 5 && x.CategoryId != 7 && x.CategoryId != 9).AsQueryable();
+                    products = products.Where(x => x.MainCategoryId == id).AsQueryable();
                     ViewBag.OverallProductCount = products.Count();
                     ViewBag.PageCount = Math.Ceiling((double)products.Count() / 3);
                     products = products.Skip(((int)page - 1) * 3).Take(3);

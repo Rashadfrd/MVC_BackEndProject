@@ -1,0 +1,104 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Riode.DAL;
+using Riode.Models;
+using Riode.Utilities.Extensions;
+
+namespace Riode.Areas.Manage.Controllers
+{
+    [Area("Manage")]
+    public class AdvertisementController : Controller
+    {
+        RiodeContext _context { get; }
+        IWebHostEnvironment _env { get; }
+
+        public AdvertisementController(RiodeContext context, IWebHostEnvironment env)
+        {
+            _context = context;
+            _env = env;
+        }
+        // GET: AdvertisementController
+        public ActionResult Index()
+        {
+            var advert = _context.Advertisements;
+            return View(advert);
+        }
+
+        // GET: AdvertisementController/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: AdvertisementController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Advertisement advert)
+        {
+            if (advert.ImageFile is null) ModelState.AddModelError("ImageFile", "Please, choose image");
+            if (!ModelState.IsValid) return View();
+            var file = advert.ImageFile;
+            if (!file.CheckFileExtension("image/"))
+            {
+                ModelState.AddModelError("ImageFile", "File must be image");
+                return View();
+            }
+            if (file.CheckFileSize(2))
+            {
+                ModelState.AddModelError("ImageFile", "File size can not be more than 2 mb!");
+                return View();
+            }
+            string fileName = file.SaveImage(_env.WebRootPath, "images/demos/demo1/banners/");
+            advert.ImageUrl = fileName;
+            advert.IsDeleted = false;
+            _context.Advertisements.Add(advert);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: AdvertisementController/Edit/5
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+        // POST: AdvertisementController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: AdvertisementController/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id is null) return BadRequest();
+            var advert = _context.Advertisements.Find(id);
+            if (advert is null) return NotFound();
+            if (advert.IsDeleted == false)
+            {
+                advert.IsDeleted = true;
+            }
+            else
+            {
+                string path = Path.Combine(_env.WebRootPath, "images/demos/demo1/banners/", advert.ImageUrl);
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+                _context.Advertisements.Remove(advert);
+            }
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+        }
+    }
+}
