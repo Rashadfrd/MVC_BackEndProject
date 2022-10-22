@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "/3aPfjjpJoi0DKz4wO1A2ogJKk6FjM7jm+vDIX3Rfoo=",
+  "Hash": "MRl8RiY8mfWnt0liwUAMM5hHb8q6rW7V4oMXR3Inio8=",
   "Source": "Riode",
   "BasePath": "_content/Riode",
   "Mode": "Default",
@@ -2769,6 +2769,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\brands\\6.png"
+    },
+    {
+      "Identity": "C:\\Users\\Rashad\\Desktop\\MVC_BackEndProject\\Riode\\wwwroot\\images\\brands\\a0904fa2-870d-420c-87a8-80b37724d7eaScreenshot (3).png",
+      "SourceId": "Riode",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Rashad\\Desktop\\MVC_BackEndProject\\Riode\\wwwroot\\",
+      "BasePath": "_content/Riode",
+      "RelativePath": "images/brands/a0904fa2-870d-420c-87a8-80b37724d7eaScreenshot (3).png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\brands\\a0904fa2-870d-420c-87a8-80b37724d7eaScreenshot (3).png"
     },
     {
       "Identity": "C:\\Users\\Rashad\\Desktop\\MVC_BackEndProject\\Riode\\wwwroot\\images\\buttons\\banner.jpg",

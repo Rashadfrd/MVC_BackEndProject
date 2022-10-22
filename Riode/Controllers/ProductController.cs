@@ -18,6 +18,7 @@ namespace Riode.Controllers
         public IActionResult Index(int? id,int? page = 1)
         {
             if (page < 0) page = 1;
+            ViewBag.DiscountBadge = _context.Badges.FirstOrDefault(x => x.Id == 4);
             ProductVM vm = new ProductVM();
             vm.Categories = _context.Categories.Include(x => x.SubCategory);
              var products = _context.Products
@@ -73,6 +74,7 @@ namespace Riode.Controllers
         public IActionResult Details(int? id)
         {
             if (id is null) return BadRequest();
+            ViewBag.DiscountBadge = _context.Badges.FirstOrDefault(x => x.Id == 4);
             ProductVM vm = new ProductVM();
             vm.Product = _context.Products
                 .Include(x => x.ProductImages)
@@ -89,11 +91,13 @@ namespace Riode.Controllers
             //vm.Products = _context.Products.Include(x => x.ProductImages).Include(x => x.Category).Where(x => x.Category.Name == filter && x.Id != id).ToList();
             if (vm.Product.Category.MainCategoryId == 1)
             {
-                vm.Products = _context.Products.Include(x => x.ProductImages).Include(x => x.Category).Where(x => x.CategoryId != 6 && x.CategoryId != 8 && x.CategoryId != 10).ToList();
+                vm.Products = _context.Products.Include(x => x.ProductImages).Include(x => x.Category).Include(x => x.ProductBadges)
+                .ThenInclude(x => x.Badge).Where(x => x.MainCategoryId == 1).ToList();
             }
             else if (vm.Product.Category.MainCategoryId == 2)
             {
-                vm.Products = _context.Products.Include(x => x.ProductImages).Include(x => x.Category).Where(x => x.CategoryId != 5 && x.CategoryId != 7 && x.CategoryId != 9).ToList();
+                vm.Products = _context.Products.Include(x => x.ProductImages).Include(x => x.Category).Include(x => x.ProductBadges)
+                .ThenInclude(x => x.Badge).Where(x => x.MainCategoryId == 2).ToList();
             }
             ViewBag.maxId = _context.Products.Max(x => x.Id);
             return View(vm);

@@ -40,7 +40,7 @@
             <h1 class="product-name mt-0">@Model.Name</h1>
             <div class="product-meta">
                 SKU: <span class="product-sku">@Model.SKU</span>
-                BRAND: <span class="product-brand">The Northland</span>
+                BRAND: <span class="product-brand">@Model.Brand.Name</span>
             </div>
             <div class="product-price">$ @(Model.InitialPrice-(Model.InitialPrice*Model.DiscountPercent/100))</div>
             <div class="ratings-container">
@@ -57,12 +57,11 @@
             <div class="product-form product-color">
                 <label>Color:</label>
                 <div class="product-variations">
-                    <a class="color" data-src="images/demos/demo7/products/big1.jpg" href="#"
-                       style="background-color: #1e73be"></a>
-                    <a class="color" data-src="images/demos/demo7/products/2.jpg" href="#"
-                       style="background-color: #56962e"></a>
-                    <a class="color" data-src="images/demos/demo7/products/3.jpg" href="#"
-                       style="background-color: #965000"></a>
+                    @foreach (var item in Model.ProductColors)
+                    {
+                        <a class="color" data-src="~/images/demos/demo7/products/big1.jpg" href="#"
+                       style="background-color: @item.Color.Name;box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;"></a>
+                    }
                 </div>
             </div>
             <div class="product-form product-size">

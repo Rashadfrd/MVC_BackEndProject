@@ -118,7 +118,7 @@
                                 </a>
                                 <div class="category-content">
                                     <h4 class="category-name font-weight-bold ls-l">
-                                        <a href="shop.html">@item.Name (@item.Products.Count())</a>
+                                        <a href="shop.html">@item.Name</a>
                                     </h4>
                                 </div>
                             </div>
@@ -161,7 +161,17 @@
                                  width="280" height="315" style="background-color: #f2f3f5;" />
                             </a>
                             <div class="product-label-group">
-                                <label class="product-label label-new">new</label>
+                                @if (item.DiscountPercent > 0)
+                                {
+                                    <label class="product-label" style="background-color:@ViewBag.DiscountBadge.Color">@item.DiscountPercent % @ViewBag.DiscountBadge.Name</label>
+                                }
+                                @foreach (var prdBadge in item.ProductBadges)
+                                {
+                                    if (prdBadge.Badge.Id != 5)
+                                    {
+                                        <label class="product-label" style="background-color:@prdBadge.Badge.Color">@prdBadge.Badge.Name</label>
+                                    }
+                                }
                             </div>
                             <div class="product-action-vertical">
                                 <a asp-controller="Product" asp-action="Basket" asp-route-id="@item.Id" id="btn-addCard" class="btn-product-icon btn-cart" data-toggle="modal"
