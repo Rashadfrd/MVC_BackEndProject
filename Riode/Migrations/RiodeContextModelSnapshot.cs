@@ -256,7 +256,7 @@ namespace Riode.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Advertisements");
+                    b.ToTable("Advertisements", (string)null);
                 });
 
             modelBuilder.Entity("Riode.Models.Badge", b =>
@@ -283,7 +283,7 @@ namespace Riode.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Badges");
+                    b.ToTable("Badges", (string)null);
                 });
 
             modelBuilder.Entity("Riode.Models.Brand", b =>
@@ -309,7 +309,7 @@ namespace Riode.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brands", (string)null);
                 });
 
             modelBuilder.Entity("Riode.Models.Category", b =>
@@ -343,7 +343,7 @@ namespace Riode.Migrations
 
                     b.HasIndex("MainCategoryId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Riode.Models.Color", b =>
@@ -366,7 +366,7 @@ namespace Riode.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Colors");
+                    b.ToTable("Colors", (string)null);
                 });
 
             modelBuilder.Entity("Riode.Models.Feature", b =>
@@ -397,7 +397,7 @@ namespace Riode.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Features");
+                    b.ToTable("Features", (string)null);
                 });
 
             modelBuilder.Entity("Riode.Models.Product", b =>
@@ -454,7 +454,7 @@ namespace Riode.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Riode.Models.ProductBadge", b =>
@@ -477,7 +477,7 @@ namespace Riode.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductBadge");
+                    b.ToTable("ProductBadge", (string)null);
                 });
 
             modelBuilder.Entity("Riode.Models.ProductColor", b =>
@@ -500,7 +500,7 @@ namespace Riode.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductColors");
+                    b.ToTable("ProductColors", (string)null);
                 });
 
             modelBuilder.Entity("Riode.Models.ProductComment", b =>
@@ -534,7 +534,7 @@ namespace Riode.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductComments");
+                    b.ToTable("ProductComments", (string)null);
                 });
 
             modelBuilder.Entity("Riode.Models.ProductImage", b =>
@@ -559,7 +559,7 @@ namespace Riode.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImages");
+                    b.ToTable("ProductImages", (string)null);
                 });
 
             modelBuilder.Entity("Riode.Models.Setting", b =>
@@ -580,7 +580,7 @@ namespace Riode.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Settings");
+                    b.ToTable("Settings", (string)null);
                 });
 
             modelBuilder.Entity("Riode.Models.Slider", b =>
@@ -620,7 +620,7 @@ namespace Riode.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sliders");
+                    b.ToTable("Sliders", (string)null);
                 });
 
             modelBuilder.Entity("Riode.Models.AppUser", b =>

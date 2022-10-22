@@ -96,15 +96,18 @@
                                     <li>
                                         <a style="font-size:13px" asp-controller="Account" asp-action="SignOut"><i class="fa-solid fa-arrow-right-from-bracket me-2 fs-3"></i>Sign Out</a>
                                     </li>
+                                    <li>
+                                        <a style="font-size:13px" asp-controller="Account" asp-action="ChangePassword"><i class="fa-solid fa-arrow-right-from-bracket me-2 fs-3"></i>Change Password</a>
+                                    </li>
                                 </ul>
                             </div>
                         }
                         else
                         {
-                        <a asp-controller="Account" asp-action="Login" class="d-flex justify-content-center"><i class="d-icon-user me-2 fs-4"></i> <span>Sign in</span></a>
-                        <span class="delimiter">/</span>
-                        <a class="m-0 p-0" asp-controller="Account" asp-action="Register">Register</a>
-                        <!-- End of Login -->
+                            <a asp-controller="Account" asp-action="Login" class="d-flex justify-content-center"><i class="d-icon-user me-2 fs-4"></i> <span>Sign in</span></a>
+                            <span class="delimiter">/</span>
+                            <a class="m-0 p-0" asp-controller="Account" asp-action="Register">Register</a>
+                            <!-- End of Login -->
                         }
                     </div>
                 </div>

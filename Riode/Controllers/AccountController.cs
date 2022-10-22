@@ -30,14 +30,14 @@ namespace Riode.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(UserLoginVM user)
         {
-            if(!ModelState.IsValid) return View();
+            if (!ModelState.IsValid) return View();
             var existUser = await _userManager.FindByEmailAsync(user.Email);
             if (existUser is null)
             {
                 ModelState.AddModelError("", "Email or Password is wrong!");
                 return View();
             }
-            var result = await _signInManager.PasswordSignInAsync(existUser, user.Password, user.RememberMe,true);
+            var result = await _signInManager.PasswordSignInAsync(existUser, user.Password, user.RememberMe, true);
             if (!result.Succeeded)
             {
                 if (result.IsLockedOut)
@@ -48,7 +48,7 @@ namespace Riode.Controllers
                 ModelState.AddModelError("", "Username or password is wrong");
                 return View();
             }
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Register()
@@ -85,7 +85,7 @@ namespace Riode.Controllers
                 }
                 return View();
             }
-            await _signInManager.SignInAsync(user1,true);
+            await _signInManager.SignInAsync(user1, true);
             return RedirectToAction("Index", "Home");
         }
 
@@ -93,6 +93,33 @@ namespace Riode.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction(nameof(Login));
+        }
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePassword model)
+        {
+            var appUser = await _userManager.GetUserAsync(User);
+            string userId = appUser.Id;
+            var user = await _userManager.FindByIdAsync(userId);
+            if (ModelState.IsValid)
+            {
+                var check = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.ConfirmNewPassword);
+                if (check.Succeeded)
+                {
+                    ViewBag.IsSuccess = true;
+                    ModelState.Clear();
+                    return View();
+                }
+                foreach (var err in check.Errors)
+                {
+                    ModelState.AddModelError("", err.Description);
+                }
+            }
+            return View();
         }
 
     }
