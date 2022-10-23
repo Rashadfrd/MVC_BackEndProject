@@ -18,6 +18,8 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(con =>
     con.Password.RequiredLength = 8;
     con.Password.RequireNonAlphanumeric = false;
     con.User.RequireUniqueEmail = true;
+
+    con.SignIn.RequireConfirmedEmail = true;
 }).AddDefaultTokenProviders().AddEntityFrameworkStores<RiodeContext>();
 builder.Services.AddScoped<LayoutService>();
 

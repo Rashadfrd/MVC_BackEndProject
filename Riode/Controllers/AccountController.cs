@@ -12,12 +12,14 @@ namespace Riode.Controllers
     {
         UserManager<AppUser> _userManager { get; }
         SignInManager<AppUser> _signInManager { get; }
+        private readonly IConfiguration _configuration;
 
         public const string templatePath = @"EmailTemplate/{0}.html";
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _configuration = configuration;
         }
 
         public IActionResult MyAccount()
@@ -90,9 +92,14 @@ namespace Riode.Controllers
                 }
                 return View();
             }
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user1);
+            if (!string.IsNullOrEmpty(token))
+            {
+               SendEmailConfirmationEmail(user1,"Malades",token);    
+            }
+            //SendEmail(user1.Email, "Malades",user1.Name);
             await _signInManager.SignInAsync(user1, true);
-            SendEmail(user1.Email, "Malades",user1.Name);
-            return RedirectToAction("Index", "Home");
+            return View();
         }
 
         public async Task<IActionResult> SignOut()
@@ -128,38 +135,85 @@ namespace Riode.Controllers
             return View();
         }
 
-        private async void SendEmail(string email,string subject,string name)
+        //private async void SendEmail(string email,string subject,string name)
+        //{
+        //    string myEmail = "rashadnf@code.edu.az";
+        //    string pass = "qxofvewoevlvrhdu";
+
+        //    var from = new MailAddress(myEmail, "Riode Support");
+        //    var to = new MailAddress(email);
+
+        //    SmtpClient smtp = new SmtpClient
+        //    {
+        //        Host = "smtp.gmail.com",
+        //        Port = 587,
+        //        EnableSsl = true,
+        //        Credentials = new NetworkCredential(myEmail, pass)
+        //    };
+        //    using (var message = new MailMessage(from, to) { Subject = subject, Body = await UpdateNamePlaceHolder(GetEmailBody("EmailTemplate"),name),IsBodyHtml = true })
+        //    {
+        //        smtp.Send(message);
+        //    }
+        //}
+
+        private async void SendEmailConfirmationEmail(AppUser user, string subject,string token)
         {
             string myEmail = "rashadnf@code.edu.az";
-            string pass = "qxofvewoevlvrhdu";
+            string password = "qxofvewoevlvrhdu";
 
             var from = new MailAddress(myEmail, "Riode Support");
-            var to = new MailAddress(email);
+            var to = new MailAddress(user.Email);
 
             SmtpClient smtp = new SmtpClient
             {
                 Host = "smtp.gmail.com",
                 Port = 587,
                 EnableSsl = true,
-                Credentials = new NetworkCredential(myEmail, pass)
+                Credentials = new NetworkCredential(myEmail, password)
             };
-            using (var message = new MailMessage(from, to) { Subject = subject, Body = await UpdateNamePlaceHolder(GetEmailBody("EmailTemplate"),name),IsBodyHtml = true })
+            using (var message = new MailMessage(from, to) { Subject = subject, Body = await UpdateNamePlaceHolder(GetEmailBody("EmailConfirm"), user,token), IsBodyHtml = true })
             {
                 smtp.Send(message);
             }
         }
-         private string GetEmailBody(string template)
+
+        [HttpGet("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail(string uid, string token)
+        {
+            if (!string.IsNullOrEmpty(uid) && !string.IsNullOrEmpty(token))
+            {
+                token =  token.Replace(' ', '+');
+                var check = await _userManager.ConfirmEmailAsync(await _userManager.FindByIdAsync(uid), token);
+                if (check.Succeeded)
+                {
+                    ViewBag.IsVerified = true;
+                }
+            }
+                return View();
+        }
+        private string GetEmailBody(string template)
          {
             var body = System.IO.File.ReadAllText(string.Format(templatePath,template));
             return body;
          }
 
-        private async Task<string> UpdateNamePlaceHolder(string text, string name)
+        private async Task<string> UpdateNamePlaceHolder(string text, AppUser user, string token)
         {
+            //string appDomain = _configuration.GetSection("Application:AppDomain").Value;
+            //string confirmationLink = _configuration.GetSection("Application:EmailConfirmation").Value;
+
+            string appDomain = "http://localhost:4272/";
+            string confirmationLink = "confirm-email?uid={0}&token={1}";
+
+            string placeHolderLink = "{{Link}}";
             string placeHolder = "{{Username}}";
             if (text.Contains(placeHolder))
             {
-                text = text.Replace(placeHolder, name);
+                text = text.Replace(placeHolder, user.Name);
+            }
+            if (text.Contains(placeHolderLink))
+            {
+                text = text.Replace(placeHolderLink, string.Format(appDomain+confirmationLink,user.Id,token));
             }
             return text;
         }
