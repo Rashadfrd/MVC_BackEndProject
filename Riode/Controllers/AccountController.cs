@@ -4,6 +4,7 @@ using Riode.Models;
 using Riode.ViewModels;
 using System.Net;
 using System.Net.Mail;
+using System.Text;
 
 namespace Riode.Controllers
 {
@@ -11,6 +12,7 @@ namespace Riode.Controllers
     {
         UserManager<AppUser> _userManager { get; }
         SignInManager<AppUser> _signInManager { get; }
+        public const string templatePath = @"EmailTemplate/{0}.html";
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
@@ -88,7 +90,7 @@ namespace Riode.Controllers
                 return View();
             }
             await _signInManager.SignInAsync(user1, true);
-            SendEmail(user1.Email, "Malades", "Ugurla qeydiyyatdan kecdiniz. Borcunuz 400$ !");
+            SendEmail(user1.Email, "Malades");
             return RedirectToAction("Index", "Home");
         }
 
@@ -125,7 +127,7 @@ namespace Riode.Controllers
             return View();
         }
 
-        private void SendEmail(string email,string subject,string body)
+        private void SendEmail(string email,string subject)
         {
             string myEmail = "rashadnf@code.edu.az";
             string pass = "qxofvewoevlvrhdu";
@@ -140,10 +142,15 @@ namespace Riode.Controllers
                 EnableSsl = true,
                 Credentials = new NetworkCredential(myEmail, pass)
             };
-            using (var message = new MailMessage(from, to) { Subject = subject, Body = body, IsBodyHtml = true })
+            using (var message = new MailMessage(from, to) { Subject = subject, Body = GetEmailBody("EmailTemplate"), IsBodyHtml = true })
             {
                 smtp.Send(message);
             }
+        }
+         private string GetEmailBody(string template)
+        {
+            var body = System.IO.File.ReadAllText(string.Format(templatePath,template));
+            return body;
         }
 
     }
