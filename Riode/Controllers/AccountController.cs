@@ -12,6 +12,7 @@ namespace Riode.Controllers
     {
         UserManager<AppUser> _userManager { get; }
         SignInManager<AppUser> _signInManager { get; }
+
         public const string templatePath = @"EmailTemplate/{0}.html";
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
@@ -90,7 +91,7 @@ namespace Riode.Controllers
                 return View();
             }
             await _signInManager.SignInAsync(user1, true);
-            SendEmail(user1.Email, "Malades");
+            SendEmail(user1.Email, "Malades",user1.Name);
             return RedirectToAction("Index", "Home");
         }
 
@@ -127,7 +128,7 @@ namespace Riode.Controllers
             return View();
         }
 
-        private void SendEmail(string email,string subject)
+        private async void SendEmail(string email,string subject,string name)
         {
             string myEmail = "rashadnf@code.edu.az";
             string pass = "qxofvewoevlvrhdu";
@@ -142,15 +143,25 @@ namespace Riode.Controllers
                 EnableSsl = true,
                 Credentials = new NetworkCredential(myEmail, pass)
             };
-            using (var message = new MailMessage(from, to) { Subject = subject, Body = GetEmailBody("EmailTemplate"), IsBodyHtml = true })
+            using (var message = new MailMessage(from, to) { Subject = subject, Body = await UpdateNamePlaceHolder(GetEmailBody("EmailTemplate"),name),IsBodyHtml = true })
             {
                 smtp.Send(message);
             }
         }
          private string GetEmailBody(string template)
-        {
+         {
             var body = System.IO.File.ReadAllText(string.Format(templatePath,template));
             return body;
+         }
+
+        private async Task<string> UpdateNamePlaceHolder(string text, string name)
+        {
+            string placeHolder = "{{Username}}";
+            if (text.Contains(placeHolder))
+            {
+                text = text.Replace(placeHolder, name);
+            }
+            return text;
         }
 
     }
