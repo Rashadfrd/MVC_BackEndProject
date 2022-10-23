@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Riode.Models;
 using Riode.ViewModels;
+using System.Net;
+using System.Net.Mail;
 
 namespace Riode.Controllers
 {
@@ -86,6 +88,7 @@ namespace Riode.Controllers
                 return View();
             }
             await _signInManager.SignInAsync(user1, true);
+            SendEmail(user1.Email, "Malades", "Ugurla qeydiyyatdan kecdiniz. Borcunuz 400$ !");
             return RedirectToAction("Index", "Home");
         }
 
@@ -120,6 +123,27 @@ namespace Riode.Controllers
                 }
             }
             return View();
+        }
+
+        private void SendEmail(string email,string subject,string body)
+        {
+            string myEmail = "rashadnf@code.edu.az";
+            string pass = "qxofvewoevlvrhdu";
+
+            var from = new MailAddress(myEmail, "Riode Support");
+            var to = new MailAddress(email);
+
+            SmtpClient smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                Credentials = new NetworkCredential(myEmail, pass)
+            };
+            using (var message = new MailMessage(from, to) { Subject = subject, Body = body, IsBodyHtml = true })
+            {
+                smtp.Send(message);
+            }
         }
 
     }
