@@ -1,14 +1,33 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Riode.DAL;
 
 namespace Riode.Areas.Manage.Controllers
 {
+    [Area("Manage")]
     public class ProductController : Controller
     {
+        RiodeContext _context { get; }
+
+        public ProductController(RiodeContext context)
+        {
+            _context = context;
+        }
+
         // GET: ProductController
         public ActionResult Index()
         {
-            return View();
+            ViewBag.Categories = _context.Categories.ToList();
+            var products = _context.Products
+                 .Include(x => x.ProductImages)
+                 .Include(x => x.Category)
+                 .Include(x=>x.Brand)
+                 .Include(x => x.ProductColors)
+                 .ThenInclude(x => x.Color)
+                 .Include(x => x.ProductBadges)
+                 .ThenInclude(x => x.Badge);
+            return View(products);
         }
 
         // GET: ProductController/Details/5

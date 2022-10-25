@@ -95,10 +95,9 @@ namespace Riode.Controllers
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user1);
             if (!string.IsNullOrEmpty(token))
             {
-               SendEmailConfirmationEmail(user1,"Malades",token);    
+               SendEmailConfirmationEmail(user1,"Confirm your email address to get started on Riode",token);
+               ViewBag.IsEmailSent = true;
             }
-            //SendEmail(user1.Email, "Malades",user1.Name);
-            await _signInManager.SignInAsync(user1, true);
             return View();
         }
 
@@ -135,6 +134,7 @@ namespace Riode.Controllers
             return View();
         }
 
+        #region BasicEmailSend
         //private async void SendEmail(string email,string subject,string name)
         //{
         //    string myEmail = "rashadnf@code.edu.az";
@@ -155,6 +155,7 @@ namespace Riode.Controllers
         //        smtp.Send(message);
         //    }
         //}
+        #endregion
 
         private async void SendEmailConfirmationEmail(AppUser user, string subject,string token)
         {
@@ -189,7 +190,7 @@ namespace Riode.Controllers
                     ViewBag.IsVerified = true;
                 }
             }
-                return View();
+            return View();
         }
         private string GetEmailBody(string template)
          {

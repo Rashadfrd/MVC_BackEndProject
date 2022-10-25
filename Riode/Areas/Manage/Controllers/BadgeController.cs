@@ -1,10 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Riode.DAL;
 
 namespace Riode.Areas.Manage.Controllers
 {
+    [Area("Manage")]
     public class BadgeController : Controller
     {
+        RiodeContext _context { get; }
+
+        public BadgeController(RiodeContext context)
+        {
+            _context = context;
+        }
         // GET: BadgeController
         public ActionResult Index()
         {

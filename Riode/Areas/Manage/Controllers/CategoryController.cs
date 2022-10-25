@@ -1,14 +1,23 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Riode.DAL;
 
 namespace Riode.Areas.Manage.Controllers
 {
+    [Area("Manage")]
     public class CategoryController : Controller
     {
+        RiodeContext _context { get; }
+
+        public CategoryController(RiodeContext context)
+        {
+            _context = context;
+        }
         // GET: CategoryController
         public ActionResult Index()
         {
-            return View();
+            var categories = _context.Categories;
+            return View(categories);
         }
 
         // GET: CategoryController/Details/5
