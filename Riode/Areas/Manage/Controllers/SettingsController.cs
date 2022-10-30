@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Riode.Areas.Manage.Controllers
 {
+    [Area("Manage")]
+    [Authorize(Roles = "SuperAdmin,Admin")]
     public class SettingsController : Controller
     {
         // GET: SettingsController

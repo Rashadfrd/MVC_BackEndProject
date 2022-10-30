@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Riode.DAL;
 using Riode.Models;
@@ -7,6 +8,7 @@ using Riode.Utilities.Extensions;
 namespace Riode.Areas.Manage.Controllers
 {
     [Area("Manage")]
+    [Authorize(Roles = "SuperAdmin,Admin")]
     public class BrandController : Controller
     {
         private readonly RiodeContext _context;

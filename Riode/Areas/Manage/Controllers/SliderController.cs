@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Riode.DAL;
 using Riode.Models;
 using Riode.Utilities.Extensions;
@@ -6,6 +7,7 @@ using Riode.Utilities.Extensions;
 namespace Riode.Areas.Manage.Controllers
 {
     [Area("Manage")]
+    [Authorize(Roles = "SuperAdmin,Admin")]
     public class SliderController : Controller
     {
         private readonly RiodeContext _context;
@@ -84,20 +86,24 @@ namespace Riode.Areas.Manage.Controllers
         public IActionResult Update(int? id, Slider slider)
         {
             if (id != slider.Id || id is null) return BadRequest();
-            if (slider.ImageFile is null) ModelState.AddModelError("ImageFile", "Please, choose image");
-            if(!ModelState.IsValid) return RedirectToAction(nameof(Update),new {id = id});
+            if (slider.ImageFile is null)
+            {
+                ModelState.AddModelError("ImageFile", "Please, choose image");
+                return View();
+            }
+            if(!ModelState.IsValid) return View(slider);
             var editSlider = _context.Sliders.Find(id);
             if (editSlider is null) return BadRequest();
             var file = slider.ImageFile;
             if (!file.CheckFileExtension("image/"))
             {
                 ModelState.AddModelError("ImageFile", "File must be image");
-                return RedirectToAction(nameof(Update), new { id = id });
+                return View(slider);
             }
             if (file.CheckFileSize(2))
             {
                 ModelState.AddModelError("ImageFile", "File size can not be more than 2 mb!");
-                return RedirectToAction(nameof(Update), new { id = id });
+                return View(slider);
             }
             string fileName = file.SaveImage(_env.WebRootPath, "images/demos/demo1/slides/");
             string path = Path.Combine(_env.WebRootPath, "images/demos/demo1/slides/", editSlider.ImageUrl);

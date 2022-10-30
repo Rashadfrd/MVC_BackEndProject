@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Riode.Models;
+using Riode.Utilities.Enums;
 using Riode.ViewModels;
 using System.Net;
 using System.Net.Mail;
@@ -13,13 +14,18 @@ namespace Riode.Controllers
         UserManager<AppUser> _userManager { get; }
         SignInManager<AppUser> _signInManager { get; }
         private readonly IConfiguration _configuration;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public const string templatePath = @"EmailTemplate/{0}.html";
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IConfiguration configuration)
+        public AccountController(UserManager<AppUser> userManager,
+                                 SignInManager<AppUser> signInManager,
+                                 IConfiguration configuration,
+                                 RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
+            _roleManager = roleManager;
         }
 
         public IActionResult MyAccount()
@@ -80,7 +86,8 @@ namespace Riode.Controllers
                 Name = user.Name,
                 Surname = user.Surname,
                 Email = user.Email,
-                UserName = user.Name
+                UserName = user.Name,
+                IsAdmin = false
             };
             var result = await _userManager.CreateAsync(user1, user.Password);
 
@@ -217,6 +224,33 @@ namespace Riode.Controllers
                 text = text.Replace(placeHolderLink, string.Format(appDomain+confirmationLink,user.Id,token));
             }
             return text;
+        }
+        //public async Task CreateRoles()
+        //{
+        //    foreach (var item in Enum.GetValues(typeof(Roles)))
+        //    {
+        //        if (!await _roleManager.RoleExistsAsync(item.ToString()))
+        //        {
+        //            await _roleManager.CreateAsync(new IdentityRole { Name = item.ToString() });
+        //        }
+        //    }
+        //}
+
+        public async Task<IActionResult> CreateSA()
+        {
+            AppUser superAdmin = new AppUser { Name = "Rashad", Surname = "Ferhadzade", UserName = "Rashad", Email = "ferhadzaderesad@gmail.com", EmailConfirmed = true, IsAdmin = true };
+            var result = await _userManager.CreateAsync(superAdmin, "Admin123");
+            if (!result.Succeeded)
+            {
+                var err = "";
+                foreach (var item in result.Errors)
+                {
+                    err += item;
+                }
+                return Content(err);
+            }
+            await _userManager.AddToRoleAsync(await _userManager.FindByEmailAsync(superAdmin.Email), Roles.SuperAdmin.ToString());
+            return Ok(superAdmin);
         }
 
     }

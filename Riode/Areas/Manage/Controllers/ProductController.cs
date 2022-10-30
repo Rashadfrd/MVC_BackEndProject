@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Riode.DAL;
@@ -8,6 +9,7 @@ using Riode.Utilities.Extensions;
 namespace Riode.Areas.Manage.Controllers
 {
     [Area("Manage")]
+    [Authorize(Roles = "SuperAdmin,Admin")]
     public class ProductController : Controller
     {
         RiodeContext _context { get; }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Riode.DAL;
 using Riode.Models;
@@ -6,6 +7,7 @@ using Riode.Models;
 namespace Riode.Areas.Manage.Controllers
 {
     [Area("Manage")]
+    [Authorize(Roles = "SuperAdmin,Admin")]
     public class FeaturesController : Controller
     {
 
