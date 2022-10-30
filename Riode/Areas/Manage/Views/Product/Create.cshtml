@@ -1,0 +1,110 @@
+﻿@using Riode.Models
+@{
+    ViewData["Title"] = "Create";
+}
+@section links{
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+}
+    <!-- Content -->
+    @model Product
+<form method="post" asp-controller="Product" asp-action="Create" enctype="multipart/form-data">
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="fw-bold py-3 mb-2"><span class="text-muted fw-light"></span>Brand Create</h4>
+
+            <div class="mb-3">
+                <label asp-for="MainImage" class="col-md-2 col-form-label"></label>
+                <input class="form-control" asp-for="MainImage">
+                <span class="text-danger" asp-validation-for="MainImage"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="OtherImages" class="col-md-2 col-form-label"></label>
+                <input class="form-control" asp-for="OtherImages">
+                <span class="text-danger" asp-validation-for="OtherImages"></span>
+            </div>
+            <!-- HTML5 Inputs -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="mb-3 row">
+                        <label asp-for="Name" class="col-md-2 col-form-label"></label>
+                        <div class="col-md-10">
+                            <input asp-for="Name" class="form-control" />
+                            <span class="text-danger" asp-validation-for="Name"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="Description" class="col-md-2 col-form-label"></label>
+                        <div class="col-md-10">
+                            <input asp-for="Description" class="form-control" />
+                            <span class="text-danger" asp-validation-for="Description"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="InitialPrice" class="col-md-2 col-form-label"></label>
+                        <div class="col-md-4">
+                            <input asp-for="InitialPrice" type="number" class="form-control w-50" />
+                            <span class="text-danger" asp-validation-for="InitialPrice"></span>
+                        </div>
+                        <label asp-for="DiscountPercent" class="col-md-2 col-form-label"></label>
+                        <div class="col-md-4">
+                            <input asp-for="DiscountPercent" class="form-control w-50" />
+                            <span class="text-danger" asp-validation-for="DiscountPercent"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="col-md-4">
+                            <select class="mySelect2 w-100" asp-for="MainCategoryId" asp-items="new SelectList(ViewBag.MainCategories, nameof(Category.Id),nameof(Category.Name))">
+                                <option disabled selected>Choose main category</option>
+                            </select>
+                            <span class="text-danger" asp-validation-for="MainCategoryId"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="mySelect2 w-100" asp-for="CategoryId" asp-items="new SelectList(ViewBag.Categories, nameof(Category.Id),nameof(Category.Name))">
+                                <option disabled selected>Choose subcategory</option>
+                            </select>
+                            <span class="text-danger" asp-validation-for="CategoryId"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="mySelect2 w-100" asp-for="BrandId" asp-items="new SelectList(ViewBag.Brands, nameof(Brand.Id),nameof(Brand.Name))">
+                                <option disabled selected>Choose brand</option>
+                            </select>
+                            <span class="text-danger" asp-validation-for="BrandId"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="ColorsIds" class="col-md-2 col-form-label">Colors</label>
+                        <div class="col-md-10">
+                            <select multiple class="mySelect2-multiple w-100" asp-for="ColorsIds" asp-items="new SelectList(ViewBag.Colors, nameof(Color.Id),nameof(Color.Name))">
+                            </select>
+                            <span class="text-danger" asp-validation-for="ColorsIds"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label asp-for="BadgesIds" class="col-md-2 col-form-label">Badges</label>
+                        <div class="col-md-10">
+                            <select multiple class="mySelect2-multiple w-100" asp-for="BadgesIds" asp-items="new SelectList(ViewBag.Badges, nameof(Badge.Id),nameof(Badge.Name))">
+                            </select>
+                            <span class="text-danger" asp-validation-for="BadgesIds"></span>
+                        </div>
+                    </div>
+                    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                </div>
+                <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+            </div>
+        </div>
+    </form>
+    <div class="content-backdrop fade"></div>
+
+    @section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js" integrity="sha512-xq+Vm8jC94ynOikewaQXMEkJIOBp7iArs3IhFWSWdRT3Pq8wFz46p+ZDFAR7kHnSFf+zUv52B3prRYnbDRdgog==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $('.mySelect2').select2({
+            selectOnClose: true
+        });
+        $('.mySelect2-multiple').select2({
+            selectOnClose: false
+        });
+    </script>
+}
+

@@ -20,7 +20,7 @@ namespace Riode.Controllers
             vm.Brands = _context.Brands.Where(x => x.IsDeleted == false);
             vm.Features = _context.Features.Where(x => x.IsDeleted == false);
             vm.Sliders = _context.Sliders.Where(x=>x.IsDeleted == false).OrderBy(x=>x.Order);
-            vm.Categories = _context.Categories.Include(x => x.Products).Where(x => x.IsDeleted == false);
+            vm.Categories = _context.Categories.Include(x => x.Products).Where(x => x.IsDeleted == false && x.IsMain == true);
             vm.Products = _context.Products
                 .Include(x => x.Category)
                 .Include(x=>x.Brand)

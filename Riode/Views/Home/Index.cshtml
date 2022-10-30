@@ -204,8 +204,16 @@
                             </div>
                             <div class="ratings-container">
                                 <div class="ratings-full">
-                                    <span class="ratings" style="width:@(item.ReviewSum/item.ReviewCount)%"></span>
-                                    <span class="tooltiptext tooltip-top"></span>
+                                    @if (@item.ReviewCount != 0)
+                                    {
+                                        <span class="ratings" style="width:@(item.ReviewSum/item.ReviewCount)%"></span>
+                                        <span class="tooltiptext tooltip-top"></span>
+                                    }
+                                    else
+                                    {
+                                        <span class="ratings" style="width:@item.ReviewCount%"></span>
+                                        <span class="tooltiptext tooltip-top"></span>
+                                    }
                                 </div>
                                 <a href="product.html" class="rating-reviews">( @item.ReviewCount reviews )</a>
                             </div>
@@ -330,8 +338,16 @@
                             </div>
                             <div class="ratings-container">
                                 <div class="ratings-full">
-                                    <span class="ratings" style="width:@(item.ReviewSum/item.ReviewCount)%"></span>
-                                    <span class="tooltiptext tooltip-top"></span>
+                                    @if (@item.ReviewCount != 0)
+                                    {
+                                        <span class="ratings" style="width:@(item.ReviewSum/item.ReviewCount)%"></span>
+                                        <span class="tooltiptext tooltip-top"></span>
+                                    }
+                                    else
+                                    {
+                                        <span class="ratings" style="width:@item.ReviewCount%"></span>
+                                        <span class="tooltiptext tooltip-top"></span>
+                                    }
                                 </div>
                                 <a href="product.html" class="rating-reviews">( @item.ReviewCount reviews )</a>
                             </div>
@@ -554,8 +570,16 @@
                                             </div>
                                             <div class="ratings-container">
                                                 <div class="ratings-full">
-                                                    <span class="ratings" style="width:@(item.ReviewSum/item.ReviewCount)%"></span>
-                                                    <span class="tooltiptext tooltip-top"></span>
+                                                    @if (@item.ReviewCount != 0)
+                                                    {
+                                                        <span class="ratings" style="width:@(item.ReviewSum/item.ReviewCount)%"></span>
+                                                        <span class="tooltiptext tooltip-top"></span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="ratings" style="width:@item.ReviewCount%"></span>
+                                                        <span class="tooltiptext tooltip-top"></span>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
@@ -599,8 +623,16 @@
                                             </div>
                                             <div class="ratings-container">
                                                 <div class="ratings-full">
-                                                    <span class="ratings" style="width:@(item.ReviewSum/item.ReviewCount)%"></span>
-                                                    <span class="tooltiptext tooltip-top"></span>
+                                                    @if (@item.ReviewCount != 0)
+                                                    {
+                                                        <span class="ratings" style="width:@(item.ReviewSum/item.ReviewCount)%"></span>
+                                                        <span class="tooltiptext tooltip-top"></span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="ratings" style="width:@item.ReviewCount%"></span>
+                                                        <span class="tooltiptext tooltip-top"></span>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
@@ -616,7 +648,7 @@
                                 }">
                             <h4 class="widget-title border-no lh-1 font-weight-bold">Best of the Week</h4>
                             <div class="products-col">
-                                @foreach (var item in Model.Products.Where(x => x.CreatedDate >= DateTime.Now.AddDays(-7)).OrderByDescending(x => x.ReviewSum / x.ReviewCount).Take(3))
+                                @foreach (var item in Model.Products.Where(x => x.ReviewCount != 0 && x.CreatedDate >= DateTime.Now.AddDays(-7)).OrderByDescending(x => x.ReviewSum / x.ReviewCount).Take(3))
                                 {
                                     <div class="product product-list-sm">
                                         <figure class="product-media">
@@ -644,8 +676,16 @@
                                             </div>
                                             <div class="ratings-container">
                                                 <div class="ratings-full">
-                                                    <span class="ratings" style="width:@(item.ReviewSum/item.ReviewCount)%"></span>
-                                                    <span class="tooltiptext tooltip-top"></span>
+                                                    @if (@item.ReviewCount != 0)
+                                                    {
+                                                        <span class="ratings" style="width:@(item.ReviewSum/item.ReviewCount)%"></span>
+                                                        <span class="tooltiptext tooltip-top"></span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="ratings" style="width:@item.ReviewCount%"></span>
+                                                        <span class="tooltiptext tooltip-top"></span>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
@@ -661,7 +701,7 @@
                                 }">
                             <h4 class="widget-title border-no lh-1 font-weight-bold">Popular</h4>
                             <div class="products-col">
-                                @foreach (var item in Model.Products.OrderByDescending(x => x.ReviewSum / x.ReviewCount).Take(3))
+                                @foreach (var item in Model.Products.Where(x => x.ReviewCount != 0).OrderByDescending(x => x.ReviewSum / x.ReviewCount).Take(3))
                                 {
                                     <div class="product product-list-sm">
                                         <figure class="product-media">
@@ -689,8 +729,16 @@
                                             </div>
                                             <div class="ratings-container">
                                                 <div class="ratings-full">
-                                                    <span class="ratings" style="width:@(item.ReviewSum/item.ReviewCount)%"></span>
-                                                    <span class="tooltiptext tooltip-top"></span>
+                                                    @if (@item.ReviewCount != 0)
+                                                    {
+                                                        <span class="ratings" style="width:@(item.ReviewSum/item.ReviewCount)%"></span>
+                                                        <span class="tooltiptext tooltip-top"></span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="ratings" style="width:@item.ReviewCount%"></span>
+                                                        <span class="tooltiptext tooltip-top"></span>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>

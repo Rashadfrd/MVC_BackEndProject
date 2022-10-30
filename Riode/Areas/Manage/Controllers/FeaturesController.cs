@@ -17,14 +17,14 @@ namespace Riode.Areas.Manage.Controllers
             _env = env;
         }
         // GET: FeaturesController
-        public ActionResult Index()
+        public IActionResult Index()
         {
             var features = _context.Features;
             return View(features);
         }
 
         // GET: FeaturesController/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
             return View();
         }
@@ -41,24 +41,27 @@ namespace Riode.Areas.Manage.Controllers
         }
 
         // GET: FeaturesController/Edit/5
-        public ActionResult Edit(int id)
+        public IActionResult Update(int id)
         {
-            return View();
+            var features = _context.Features.Find(id);
+            return View(features);
         }
 
         // POST: FeaturesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public IActionResult Update(int? id, Feature feature)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            if (id != feature.Id || id is null) return BadRequest();
+            if (!ModelState.IsValid) return View(feature);
+            var editfeature = _context.Features.Find(id);
+            if (editfeature is null) return BadRequest();
+            editfeature.Title = feature.Title;
+            editfeature.Description = feature.Description;
+            editfeature.Icon = feature.Icon;
+            editfeature.IsModified = DateTime.UtcNow;
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: FeaturesController/Delete/5

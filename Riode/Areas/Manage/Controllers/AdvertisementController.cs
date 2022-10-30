@@ -57,24 +57,47 @@ namespace Riode.Areas.Manage.Controllers
         }
 
         // GET: AdvertisementController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Update(int id)
         {
-            return View();
+            var advert = _context.Advertisements.Find(id);
+            return View(advert);
         }
 
         // POST: AdvertisementController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Update(int? id, Advertisement advert)
         {
-            try
+            if (id != advert.Id || id is null) return BadRequest();
+            if (advert.ImageFile is null) ModelState.AddModelError("ImageFile", "Please, choose image");
+            if (!ModelState.IsValid) return View(advert);
+            var editadvert = _context.Advertisements.Find(id);
+            if (editadvert is null) return BadRequest();
+            var file = advert.ImageFile;
+            if (!file.CheckFileExtension("image/"))
             {
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("ImageFile", "File must be image");
+                return View(advert);
             }
-            catch
+            if (file.CheckFileSize(2))
             {
-                return View();
+                ModelState.AddModelError("ImageFile", "File size can not be more than 2 mb!");
+                return View(advert);
             }
+            string fileName = file.SaveImage(_env.WebRootPath, "images/demos/demo1/banners/");
+            string path = Path.Combine(_env.WebRootPath, "images/demos/demo1/banners/", editadvert.ImageUrl);
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+            advert.ImageUrl = fileName;
+            editadvert.ImageUrl = advert.ImageUrl;
+            editadvert.Name = advert.Name;
+            editadvert.Title = advert.Title;
+            editadvert.Place = advert.Place;
+            editadvert.IsModified = DateTime.UtcNow;
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: AdvertisementController/Delete/5

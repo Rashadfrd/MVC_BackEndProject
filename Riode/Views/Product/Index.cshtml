@@ -190,8 +190,16 @@
                                         </div>
                                         <div class="ratings-container">
                                             <div class="ratings-full">
-                                                <span class="ratings" style="width:@(item.ReviewSum/item.ReviewCount)%"></span>
-                                                <span class="tooltiptext tooltip-top"></span>
+                                                @if (@item.ReviewCount != 0)
+                                                {
+                                                    <span class="ratings" style="width:@(item.ReviewSum/item.ReviewCount)%"></span>
+                                                    <span class="tooltiptext tooltip-top"></span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="ratings" style="width:@item.ReviewCount%"></span>
+                                                    <span class="tooltiptext tooltip-top"></span>
+                                                }
                                             </div>
                                             <a href="product.html" class="rating-reviews">( @item.ReviewCount reviews )</a>
                                         </div>

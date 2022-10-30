@@ -48,8 +48,8 @@
                                 <i class="bx bx-dots-vertical-rounded"></i>
                             </button>
                             <div class="dropdown-menu">
-                                <a id="btn-btn" class="dropdown-item" asp-controller="Slider" asp-action="Update" asp-route-id="@item.Id"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                                <a id="btn-delete" class="dropdown-item slider-del" asp-controller="Slider" asp-action="Delete" asp-route-id="@item.Id"><i class="bx bx-trash me-1"></i> Delete</a>
+                                <a id="btn-btn" class="dropdown-item" asp-controller="Product" asp-action="Update" asp-route-id="@item.Id"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                <a id="btn-delete" class="dropdown-item slider-del" asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id"><i class="bx bx-trash me-1"></i> Delete</a>
                             </div>
                         </div>
                     </td>
@@ -94,7 +94,7 @@
                         type: "GET",
                         url: a.attr('href'),
                     }).done(function() {
-                        let status = a.parent().parent().parent().prev().prev();
+                        let status = a.parent().parent().parent().prev();
                         if (status.text().trim().toLowerCase() == "active") {
                             status.children().toggleClass("bg-label-success bg-label-danger");
                             status.children().text("Deleted")

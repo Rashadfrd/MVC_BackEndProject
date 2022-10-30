@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Riode.DAL;
+using Riode.Models;
+using Riode.Utilities.Extensions;
 
 namespace Riode.Areas.Manage.Controllers
 {
@@ -8,10 +10,12 @@ namespace Riode.Areas.Manage.Controllers
     public class CategoryController : Controller
     {
         RiodeContext _context { get; }
+        private readonly IWebHostEnvironment _env;
 
-        public CategoryController(RiodeContext context)
+        public CategoryController(RiodeContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
         // GET: CategoryController
         public ActionResult Index()
@@ -35,58 +39,120 @@ namespace Riode.Areas.Manage.Controllers
         // POST: CategoryController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Category category)
         {
-            try
+            if (category.MainCategoryId is null)
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
+                ModelState.AddModelError("MainCategoryId", "MainCategoryId field is required");
                 return View();
             }
+            if (!ModelState.IsValid) return View();
+            if (category.ImageFile != null)
+            {
+                var file = category.ImageFile;
+                if (!file.CheckFileExtension("image/"))
+                {
+                    ModelState.AddModelError("ImageFile", "File must be image");
+                    return View();
+                }
+                if (file.CheckFileSize(2))
+                {
+                    ModelState.AddModelError("ImageFile", "File size can not be more than 2 mb!");
+                    return View();
+                }
+                string fileName = file.SaveImage(_env.WebRootPath, "images/categories/");
+                category.ImageUrl = fileName;
+            }
+            if (category.IsMain == true)
+            {
+                category.MainCategoryId = null;
+            }
+            category.IsDeleted = false;
+            _context.Categories.Add(category);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: CategoryController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Update(int? id)
         {
-            return View();
+            if (id is null) return BadRequest();
+            var category = _context.Categories.FirstOrDefault(c => c.Id == id);
+            if (category == null) return NotFound();
+            return View(category);
         }
 
         // POST: CategoryController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Update(int? id, Category category)
         {
-            try
+            if (id != category.Id || id is null) return BadRequest();
+            if (!ModelState.IsValid) return View(category);
+            var editcategory = _context.Categories.Find(id);
+            if (editcategory is null) return BadRequest();
+            if (category.ImageFile != null)
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
+            var file = category.ImageFile;
+            if (!file.CheckFileExtension("image/"))
             {
-                return View();
+                ModelState.AddModelError("ImageFile", "File must be image");
+                return View(category);
             }
+            if (file.CheckFileSize(2))
+            {
+                ModelState.AddModelError("ImageFile", "File size can not be more than 2 mb!");
+                return View(category);
+            }
+            string fileName = file.SaveImage(_env.WebRootPath, "images/categories/");
+            category.ImageUrl = fileName;
+            }
+            if (editcategory.ImageUrl != null)
+            {
+            string path = Path.Combine(_env.WebRootPath, "images/categories/", editcategory.ImageUrl);
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+            }
+            if (category.IsMain == true)
+            {
+                category.MainCategoryId = null;
+            }
+            editcategory.MainCategoryId = category.MainCategoryId;
+            editcategory.IsMain = category.IsMain;
+            editcategory.ImageUrl = category.ImageUrl;
+            editcategory.Name = category.Name;
+            editcategory.IsModified = DateTime.UtcNow;
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: CategoryController/Delete/5
-        public ActionResult Delete(int id)
+        public IActionResult Delete(int? id)
         {
-            return View();
-        }
+            if (id is null) return BadRequest();
+            var category = _context.Categories.Find(id);
+            if (category is null) return NotFound();
+            if (category.IsDeleted == false)
+            {
+                category.IsDeleted = true;
+            }
+            else
+            {
+                if (category.ImageFile != null)
+                {
+                    string path = Path.Combine(_env.WebRootPath, "images/categories/", category.ImageUrl);
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                    }
+                }
+                _context.Categories.Remove(category);
+            }
+            _context.SaveChanges();
 
-        // POST: CategoryController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }

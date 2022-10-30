@@ -19,6 +19,7 @@ namespace Riode.DAL
         public DbSet<Color> Colors { get; set; }
         public DbSet<ProductColor> ProductColors { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<ProductBadge> ProductBadges { get; set; }
         public DbSet<Advertisement> Advertisements { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<ProductComment> ProductComments { get; set; }

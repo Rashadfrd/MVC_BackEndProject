@@ -101,8 +101,16 @@
                         }
                         <div class="ratings-container">
                             <div class="ratings-full">
-                                <span class="ratings" style="width:@(Model.Product.ReviewSum/Model.Product.ReviewCount)%"></span>
-                                <span class="tooltiptext tooltip-top"></span>
+                                @if (Model.Product.ReviewCount != 0)
+                                {
+                                    <span class="ratings" style="width:@(Model.Product.ReviewSum/Model.Product.ReviewCount)%"></span>
+                                    <span class="tooltiptext tooltip-top"></span>
+                                }
+                                else
+                                {
+                                    <span class="ratings" style="width:@Model.Product.ReviewCount%"></span>
+                                    <span class="tooltiptext tooltip-top"></span>
+                                }
                             </div>
                             <a href="#product-tab-reviews" class="link-to-tab rating-reviews">( 6 reviews )</a>
                         </div>
@@ -470,8 +478,16 @@
                                 </div>
                                 <div class="ratings-container">
                                     <div class="ratings-full">
-                                        <span class="ratings" style="width:@(item.ReviewSum/item.ReviewCount)%"></span>
-                                        <span class="tooltiptext tooltip-top"></span>
+                                        @if (@item.ReviewCount != 0)
+                                        {
+                                            <span class="ratings" style="width:@(item.ReviewSum/item.ReviewCount)%"></span>
+                                            <span class="tooltiptext tooltip-top"></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="ratings" style="width:@item.ReviewCount%"></span>
+                                            <span class="tooltiptext tooltip-top"></span>
+                                        }
                                     </div>
                                     <a href="#" class="rating-reviews">
                                         ( <span class="review-count">@item.ReviewCount</span>

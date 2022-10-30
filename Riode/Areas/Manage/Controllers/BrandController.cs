@@ -55,24 +55,45 @@ namespace Riode.Areas.Manage.Controllers
         }
 
         // GET: BrandController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Update(int id)
         {
-            return View();
+            var brand = _context.Brands.FirstOrDefault(b => b.Id == id);
+            return View(brand);
         }
 
         // POST: BrandController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Update(int? id, Brand brand)
         {
-            try
+            if (id != brand.Id || id is null) return BadRequest();
+            if (brand.ImageFile is null) ModelState.AddModelError("ImageFile", "Please, choose image");
+            if (!ModelState.IsValid) return View(brand);
+            var editbrand = _context.Brands.Find(id);
+            if (editbrand is null) return BadRequest();
+            var file = brand.ImageFile;
+            if (!file.CheckFileExtension("image/"))
             {
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("ImageFile", "File must be image");
+                return View(brand);
             }
-            catch
+            if (file.CheckFileSize(2))
             {
-                return View();
+                ModelState.AddModelError("ImageFile", "File size can not be more than 2 mb!");
+                return View(brand);
             }
+            string fileName = file.SaveImage(_env.WebRootPath, "images/brands/");
+            string path = Path.Combine(_env.WebRootPath, "images/brands/", editbrand.ImageUrl);
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+            brand.ImageUrl = fileName;
+            editbrand.ImageUrl = brand.ImageUrl;
+            editbrand.Name = brand.Name;
+            editbrand.IsModified = DateTime.UtcNow;
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: BrandController/Delete/5
