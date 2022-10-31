@@ -112,7 +112,7 @@
                                     <span class="tooltiptext tooltip-top"></span>
                                 }
                             </div>
-                            <a href="#product-tab-reviews" class="link-to-tab rating-reviews">( 6 reviews )</a>
+                            <a href="#product-tab-reviews" class="link-to-tab rating-reviews">( @Model.Product.ReviewCount reviews )</a>
                         </div>
                         <p class="product-short-desc">
                             @Model.Product.Description
@@ -308,7 +308,7 @@
                             </div>
                             <div class="card card-reviews">
                                 <div class="card-header">
-                                    <a href="#collapse1-4" class="expand">Reviews (2)</a>
+                                    <a href="#collapse1-4" class="expand">Reviews (@Model.Product.ReviewCount)</a>
                                 </div>
                                 <div class="card-body collapsed" id="collapse1-4">
                                     <div class="comments mb-8 pt-2 pb-2 border-no">

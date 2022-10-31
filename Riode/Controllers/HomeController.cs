@@ -46,5 +46,13 @@ namespace Riode.Controllers
             return PartialView("_ModalPartialView", product);
         }
 
+
+        public IActionResult AboutUs()
+        {
+            var aboutUs = _context.AboutUs;
+            ViewBag.BrandCount = _context.Brands.Count();
+            ViewBag.AdminsCount = _context.AppUsers.Where(x => x.IsAdmin == true).Count();        
+            return View(aboutUs);
+        }
     }
 }

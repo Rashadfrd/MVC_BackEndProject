@@ -23,5 +23,6 @@ namespace Riode.DAL
         public DbSet<Advertisement> Advertisements { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<ProductComment> ProductComments { get; set; }
+        public DbSet<AboutUs> AboutUs { get; set; }
     }
 }
